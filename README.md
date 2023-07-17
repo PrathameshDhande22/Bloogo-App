@@ -2,7 +2,7 @@
 
 A Blog App for all Coders, Programmers, and other.
 
-A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB Formly Known as FARM Stack Project.
+A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a PostgreSQL.
 
 ## Timeline
 - **Day 1 - 17 July 2023**
