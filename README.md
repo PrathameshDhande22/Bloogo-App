@@ -16,13 +16,32 @@ A Blog App for all Coders, Programmers, and other.
 
 A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
+## Used Technologies : 
+1. [Brevo](https://developers.brevo.com/) SMTP Mail Sender for verification of Email implemented in API. 
+
 ## Timeline
 
 - **Day 1 - 17 July 2023**
 
-  - Project Intialize.
+  - Project Intialize. 🗒️
 - **Day 2 - 18 July 2023**
-  - Gathering Information on how to integrate google login and selecting the correct database.
-  - Started working on Backend installed various library.
+  - Gathering Information on how to integrate google login and selecting the correct database. 🔎
+  - Started working on Backend installed various library. 💻
+
+- **Day 3 - 19 July 2023**
+  - Started creating the api 
+  - Created the Folder and Managing various file 📂
+
+- **Day 4 - 20 July 2023**
+  - Implemented Database and Models 📅
+  - Login,Register and Authorization Code ✅
+  - Email Verification Code 📧
+
+- **Day 5 - 21 July 2023**
+  - Completed Backend for Blog endpoint 💻
+  - Completed Backend for Tags endpoint 💻
+  - Completed Backend for Profile Endpoint 💻
+
+
 
 ## Author : Prathamesh Dhande
