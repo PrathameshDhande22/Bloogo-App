@@ -8,7 +8,7 @@ from .database import User
 token = APIKeyHeader(
     name="Authorization",
     scheme_name="Authorization Header",
-    description="Use to Explore the API",
+    description="Add the **access Token** and explore the rest of the api.",
     auto_error=False,
 )
 

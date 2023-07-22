@@ -7,8 +7,17 @@ from ..models import General, TagsList
 tag = APIRouter(prefix="/api", tags=["Blog Tags"])
 
 
-@tag.post("/tag/{name}", response_model=General)
-def addTag(name: Annotated[str, Path()], udata: Annotated[tuple, Depends(verify_token)]):
+@tag.post(
+    "/tag/{name}",
+    response_model=General,
+    summary="Add the Tag Name",
+    description="Adds the tag name which can be used with blog",
+    response_description="Tag Added Successfully",
+)
+def addTag(
+    name: Annotated[str, Path(description="Tag Name which want to add", example="Java")],
+    udata: Annotated[tuple, Depends(verify_token)],
+):
     tags_data = Tags.objects(name=name).first()
     if tags_data is not None:
         raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"{name} Tag Already Present")
@@ -16,7 +25,13 @@ def addTag(name: Annotated[str, Path()], udata: Annotated[tuple, Depends(verify_
     return {"message": f"Tag {name} added Successfully"}
 
 
-@tag.get("/tags", response_model=TagsList)
+@tag.get(
+    "/tags",
+    response_model=TagsList,
+    summary="List of All tags",
+    description="Tag list which can be used with blog",
+    response_description="List of Tags",
+)
 def viewTag():
     tags_data = list(Tags.objects().exclude("id").scalar("name"))
     return {"tags": tags_data, "total_tags": len(tags_data)}

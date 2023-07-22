@@ -13,15 +13,21 @@ blog = APIRouter(prefix="/api", tags=["Blogs"])
 
 
 def formdata(
-    content: Annotated[str, Form()],
-    title: Annotated[str, Form()],
-    tag: Annotated[str, Form()],
-    thumbnail: Annotated[str, Form()],
+    content: Annotated[str, Form(description="Blog Content in HTML")],
+    title: Annotated[str, Form(description="Blog Title")],
+    tag: Annotated[str, Form(description="Blog Tag")],
+    thumbnail: Annotated[str, Form(description="Blog Thumbnail URL")],
 ):
     return {"title": title, "tag": tag, "thumbnail": thumbnail, "content": content}
 
 
-@blog.post("/blog/new", response_model=General)
+@blog.post(
+    "/blog/new",
+    response_model=General,
+    summary="Create New Blog",
+    description="Create new Blog and publish it.",
+    response_description="Blog Added Successfully",
+)
 def createNewBlog(
     formd: Annotated[dict, Depends(formdata)],
     udata: Annotated[tuple, Depends(verify_token)],
@@ -61,7 +67,13 @@ def createNewBlog(
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid Thumbnail URL")
 
 
-@blog.get("/blogs", response_model=BlogData)
+@blog.get(
+    "/blogs",
+    response_model=BlogData,
+    summary="View all Blogs",
+    description="View all blogs or filter the blogs to view",
+    response_description="List of blogs",
+)
 def viewAllBlog(
     tag: Annotated[str, Query()] = None,
     author: Annotated[str, Query()] = None,
@@ -92,8 +104,14 @@ def viewAllBlog(
     return {"Total_Blogs": len(blogs), "blogs": blogs}
 
 
-@blog.get("/blog/{id}", response_model=BlogModel)
-def getBlogById(id: Annotated[str, Path()]):
+@blog.get(
+    "/blog/{id}",
+    response_model=BlogModel,
+    summary="View Specific Blog",
+    description="View the Specific Blog using the blog unique ID.",
+    response_description="Blog",
+)
+def getBlogById(id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")]):
     try:
         blog_data = Blog.objects(id=id).first()
         if blog_data is None:
@@ -109,11 +127,17 @@ def getBlogById(id: Annotated[str, Path()]):
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Blog Doesn't Exists")
 
 
-@blog.put("/blog/{id}", response_model=General)
+@blog.put(
+    "/blog/{id}",
+    response_model=General,
+    summary="Update Blog",
+    description="Update the blog",
+    response_description="Blog Updated Successfully.",
+)
 def updateBlog(
     blog_data_form: Annotated[dict, Depends(formdata)],
     udata: Annotated[tuple, Depends(verify_token)],
-    id: Annotated[str, Path()],
+    id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")],
 ):
     try:
         blog_data = Blog.objects(id=id).first()
@@ -132,8 +156,17 @@ def updateBlog(
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Blog Doesn't Exists")
 
 
-@blog.delete("/blog/{id}", response_model=General)
-def deleteblog(udata: Annotated[tuple, Depends(verify_token)], id: Annotated[str, Path()]):
+@blog.delete(
+    "/blog/{id}",
+    response_model=General,
+    summary="Delete Blog",
+    description="Delete a particular Blog. Blog can be deleted by the owner of the blog who has created.",
+    response_description="Blog Updated Successfully",
+)
+def deleteblog(
+    udata: Annotated[tuple, Depends(verify_token)],
+    id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")],
+):
     try:
         blog_data = Blog.objects(id=id).first()
         if blog_data is None:
@@ -146,7 +179,13 @@ def deleteblog(udata: Annotated[tuple, Depends(verify_token)], id: Annotated[str
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Blog Doesn't Exists")
 
 
-@blog.get("/blogs/user", response_model=BlogData)
+@blog.get(
+    "/blogs/user",
+    response_model=BlogData,
+    summary="User added Blogs",
+    description="List of all the blogs which was created by user.",
+    response_description="List of Blog",
+)
 def getBlogsUser(udata: Annotated[tuple, Depends(verify_token)]):
     blog_data = Blog.objects(authorid=udata[2]).order_by("createdon")
     blogs = json.loads(blog_data.to_json())

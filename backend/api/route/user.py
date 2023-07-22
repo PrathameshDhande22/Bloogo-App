@@ -8,7 +8,7 @@ from ..utils import get_access_token, hashed_password, verify_password, getHash
 from ..emailsend import send_email
 
 
-user = APIRouter(prefix="/api", tags=["User Related"])
+user = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
 
 @user.post(
@@ -16,6 +16,12 @@ user = APIRouter(prefix="/api", tags=["User Related"])
     summary="Register User",
     description="Registering a User to use the blog api",
     response_model=HelpMessage,
+    responses={
+        200: {"description": "User Registered"},
+        422: {
+            "description": "One or more Fields are Wrong.",
+        },
+    },
 )
 async def registeruser(register: RegisterModel):
     already_data = User.objects(email=register.email).first()
@@ -29,11 +35,20 @@ async def registeruser(register: RegisterModel):
     return {"message": "User Registered", "help": "login To get access Token"}
 
 
-@user.get("/login", response_model=Token)
+@user.get(
+    "/login",
+    response_model=Token,
+    summary="Login to get Access Token",
+    response_description="Login Success",
+)
 async def loginUser(
-    email: Annotated[EmailStr, Form(description="Email Required to get the access Token")],
-    password: Annotated[str, Form(description="Password Required to login")],
+    email: Annotated[
+        EmailStr,
+        Form(description="Email Required to get the access Token", example="john@gmail.com"),
+    ],
+    password: Annotated[str, Form(description="Password Required to login", example="johnny@12")],
 ):
+    """Login for access token using you can add blog, update profile and various actions."""
     user_data = User.objects(email=email).first()
     if user_data is None:
         raise HTTPException(
@@ -49,7 +64,13 @@ async def loginUser(
 # TODO : Create the Google Login using Google Authlib
 
 
-@user.post("/send", response_model=General)
+@user.post(
+    "/send",
+    response_model=General,
+    summary="Send Verification Mail",
+    description="Used to send the verification mail to the login or registered user to verify the email i.e it belongs to user only.",
+    response_description="Verification Mail Sent",
+)
 def sendVerificationMail(
     udata: Annotated[tuple, Depends(verify_token)], background: BackgroundTasks
 ):
@@ -61,9 +82,17 @@ def sendVerificationMail(
     return {"message": "Verification Mail Sent."}
 
 
-@user.get("/verify/{token}", response_model=General)
+@user.get(
+    "/verify/{token}",
+    response_model=General,
+    summary="Verify Email",
+    description="Verify your email by passing the verification code which was sent by email.",
+    response_description="Email Verified",
+)
 def verifyUser(
-    token: Annotated[str, Path(description="An Email Send Verification Code")],
+    token: Annotated[
+        str, Path(description="An Email Send Verification Code", example="oerueikcvnsahut")
+    ],
     udata: Annotated[tuple, Depends(verify_token)],
 ):
     user_token_data = User.objects(verification=token).first()
@@ -75,4 +104,12 @@ def verifyUser(
     return {"message": "User Verified Successfully"}
 
 
-# TODO : Implement Forgot Password and Change Password Endpoints.
+@user.get(
+    "/authenticate",
+    response_model=General,
+    summary="Authenticate Login User",
+    description="Used to verify that the access token belongs to current user only.",
+    response_description="Authenticated User.",
+)
+def authenticateuser(udata: Annotated[dict, Depends(verify_token)]):
+    return {"message": "Authenticated"}
