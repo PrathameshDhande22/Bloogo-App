@@ -55,6 +55,9 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Documented the api backend. 📄
   - Frontend Initialized. 🌐
 
+- **Day 7 - 23 July 2023**
+  - Initialized the tailwindcss
+
 ## Guide :
 
 **Guide For running the project locally in your system.**
