@@ -64,7 +64,11 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Server Side rendering to be done.
 
 - **Day 8 - 24 July 2023**
+
   - Created the logo, Favicon for our website.
+
+- **Day 9 - 27 July 2023**
+  - Implemented Header and Home Page or Landing Page.
 
 ## Guide :
 
