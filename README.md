@@ -23,6 +23,10 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 1. [Brevo](https://developers.brevo.com/) SMTP Mail Sender for verification of Email implemented in API.
 2. [https://app.logo.com/](https://app.logo.com/) for Creating the Bloogo logo.
 3. [write.as](https://write.as/) Reference for creating the blog. Using The above website design.
+4. [Footer Design](https://preview.colorlib.com/theme/bft/bootstrap-footer-17/#) Footer Design has been taken from the above website.
+5. [Moment.js](https://momentjs.com/) Used for Formatting the Date recieved From backend.
+6. [Html Parser](https://github.com/remarkablemark/html-react-parser) for converting the HTML string to JSX HTML.
+7. [Animate.css](https://animate.style/) for Animating some components.
 
 ## Timeline
 
@@ -68,7 +72,14 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Created the logo, Favicon for our website.
 
 - **Day 9 - 27 July 2023**
+
   - Implemented Header and Home Page or Landing Page.
+  - Implemented Footer.
+
+- **Day 10 - 28 July 2023**
+  - Implemented About and Developer Page and modified some CSS constraints in Header and Footer.
+  - Applied the CORS Middleware to the Backend for successful communication with the frontend.
+  - Implemented Full Page Blog.
 
 ## Guide :
 
