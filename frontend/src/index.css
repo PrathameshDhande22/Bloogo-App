@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&family=Lumanosimo&family=Merriweather&family=Noto+Serif:wght@400;500;700&family=REM:wght@200&family=Rajdhani&family=Ysabeau+SC:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .navlink-active {
+    @apply font-extrabold border-b-4 border-indigo-600 py-1 px-4;
+  }
+}
