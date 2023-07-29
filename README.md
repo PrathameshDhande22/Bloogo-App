@@ -21,12 +21,15 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 ## Used Technologies and Products :
 
 1. [Brevo](https://developers.brevo.com/) SMTP Mail Sender for verification of Email implemented in API.
-2. [https://app.logo.com/](https://app.logo.com/) for Creating the Bloogo logo.
+2. [logo.com](https://app.logo.com/) for Creating the Bloogo logo.
 3. [write.as](https://write.as/) Reference for creating the blog. Using The above website design.
 4. [Footer Design](https://preview.colorlib.com/theme/bft/bootstrap-footer-17/#) Footer Design has been taken from the above website.
 5. [Moment.js](https://momentjs.com/) Used for Formatting the Date recieved From backend.
 6. [Html Parser](https://github.com/remarkablemark/html-react-parser) for converting the HTML string to JSX HTML.
 7. [Animate.css](https://animate.style/) for Animating some components.
+8. [Formik](https://formik.org/) used for handling client side validation of form data.
+9. [yup](https://github.com/jquense/yup) used for creating the form schema that can be used with formik.
+10. [Material UI](https://mui.com/) Great UI Components for react, creating the readymade and coding free components.
 
 ## Timeline
 
@@ -80,6 +83,10 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Implemented About and Developer Page and modified some CSS constraints in Header and Footer.
   - Applied the CORS Middleware to the Backend for successful communication with the frontend.
   - Implemented Full Page Blog.
+
+- **Day 11 - 29 July 2023**
+  - Implemented the Login and signup page and integrated backend.
+  - Improved some Authentication in Frontend.
 
 ## Guide :
 
