@@ -35,7 +35,7 @@ async def registeruser(register: RegisterModel):
     return {"message": "User Registered", "help": "login To get access Token"}
 
 
-@user.get(
+@user.post(
     "/login",
     response_model=Token,
     summary="Login to get Access Token",

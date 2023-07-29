@@ -42,5 +42,7 @@ def verify_token(auth_token: Annotated[str, Security(token)]):
         if user_data is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Unauthorization Access")
         return (user_data.email, user_data.isverified, user_data.id)
+    except IndexError as i:
+        raise HTTPException(status.HTTP_406_NOT_ACCEPTABLE, detail="Invalid Token")
     except jwt.DecodeError as d:
         raise HTTPException(status.HTTP_406_NOT_ACCEPTABLE, detail="Invalid Token")
