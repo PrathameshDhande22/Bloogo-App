@@ -30,6 +30,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 8. [Formik](https://formik.org/) used for handling client side validation of form data.
 9. [yup](https://github.com/jquense/yup) used for creating the form schema that can be used with formik.
 10. [Material UI](https://mui.com/) Great UI Components for react, creating the readymade and coding free components.
+11. [React Icons](https://react-icons.github.io/react-icons/) Icons for using in various pages to make user Interaction more attractive.
 
 ## Timeline
 
@@ -80,13 +81,21 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Implemented Footer.
 
 - **Day 10 - 28 July 2023**
+
   - Implemented About and Developer Page and modified some CSS constraints in Header and Footer.
   - Applied the CORS Middleware to the Backend for successful communication with the frontend.
   - Implemented Full Page Blog.
 
 - **Day 11 - 29 July 2023**
+
   - Implemented the Login and signup page and integrated backend.
   - Improved some Authentication in Frontend.
+
+- **Day 12 - 30 July 2023**
+  - Implemented Logout,Profile and Email Verification Pages.
+  - Implemented Protected Routes.
+  - Created Account on Cloudinary for image uploading and image resizing.
+  - Implemented Error Page 404 Not Found Page.
 
 ## Guide :
 
