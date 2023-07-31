@@ -7,16 +7,17 @@ import sib_api_v3_sdk
 def send_email(token: str, email: str) -> bool:
     config = sib_api_v3_sdk.Configuration()
     config.api_key["api-key"] = os.getenv("SMTP_API")
+    url = os.getenv("APP_URL")
     api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(config))
     subject = "Email Verification"
     html_content = f"""
     <html>
     <body>
-    <h2> Thank You For Registering With Us.</h2>
-    <p> Verify Your Email Address by using the below verification Code </p>
-    <b> Code : </b> {token}
-    
-    <p> Don't Reply to This Email</p>.
+    <h1>Bloogo</h1><br/>
+    <h2>Thank You For Registering With Us.</h2>
+    <p>Verify Your Email Address by using the below verification Code</p>
+    <p><b>Verification Link :- </b><strong><a href="{url}/verify/{token}">Click Here</a></strong></p>
+    <p>Don't Reply to This Email</p>
     </body>
     </html>
     """

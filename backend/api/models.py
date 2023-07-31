@@ -79,3 +79,7 @@ class ProfileModel(BaseModel):
         examples=["https://www.facebook.com/mother.png"],
         default=None,
     )
+
+class AuthorProfile(BaseModel):
+    profile:ProfileModel
+    blogs:BlogData

@@ -1,13 +1,13 @@
 import datetime
 import json
 from typing import Annotated
-from fastapi import APIRouter, Depends, Query, HTTPException, status, Form
+from fastapi import APIRouter, Depends, Path, Query, HTTPException, status, Form
 from pydantic import EmailStr
 from ..database import Blog, User
 from ..auth import verify_token
-from ..models import General, ProfileModel, UserModel
+from ..models import AuthorProfile, General, ProfileModel, UserModel
 from ..utils import checkNone, hashed_password, verify_password
-
+from mongoengine.errors import ValidationError
 
 profile = APIRouter(prefix="/api/user", tags=["User Profile"])
 
@@ -42,12 +42,25 @@ def getUserProfile(udata: Annotated[tuple, Depends(verify_token)]):
 )
 def updateProfile(usermodel: UserModel, udata: Annotated[tuple, Depends(verify_token)]):
     user_data = User.objects(id=udata[2]).first()
+    firstname = checkNone(usermodel.firstname, user_data.firstname)
+    lastname = checkNone(usermodel.lastname, user_data.lastname)
     user_data.update(
-        set__firstname=checkNone(usermodel.firstname, user_data.firstname),
-        set__lastname=checkNone(usermodel.lastname, user_data.lastname),
+        set__firstname=firstname,
+        set__lastname=lastname,
         set__dob=checkNone(usermodel.dob, user_data.dob),
         set__profileurl=checkNone(usermodel.profileurl, user_data.profileurl),
     )
+
+    if firstname is None:
+        full_name = usermodel.lastname
+    elif lastname is None:
+        full_name = usermodel.firstname
+    elif firstname is None and lastname is None:
+        full_name = None
+    else:
+        full_name = firstname + " " + lastname
+    Blog.objects(authorid=user_data.id).update(set__name=full_name)
+
     return {"message": "Profile Updated Successfully"}
 
 
@@ -111,3 +124,44 @@ def changePassword(
         user_data.save()
         return {"message": "Password Changed Successfully"}
     raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Password not Matched")
+
+
+@profile.get(
+    "/profile/{id}",
+    response_model=AuthorProfile,
+    summary="User Profile with Blogs",
+    description="Retreving the user related blogs and user data.",
+)
+def getAuthorProfile(
+    id: Annotated[
+        str,
+        Path(
+            description="Id of the user for retrieving the user data and user published Blogs.",
+            example="4dhjfjh30apaid",
+        ),
+    ]
+):
+    try:
+        data = json.loads(User.objects(id=id).exclude("id").first().to_json())
+        data["createdon"] = datetime.datetime.utcfromtimestamp(
+            data["createdon"]["$date"] / 1000
+        ).strftime("%Y-%m-%d")
+        try:
+            data["dob"] = datetime.datetime.utcfromtimestamp(data["dob"]["$date"] / 1000).strftime(
+                "%Y-%m-%d"
+            )
+        except KeyError as ke:
+            pass
+        if data is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Profile Not Found")
+        blogs = Blog.objects(authorid=id).order_by("createdon")
+        author_blogs = json.loads(blogs.to_json())
+        for blogi in author_blogs:
+            blogi["createdon"] = datetime.datetime.utcfromtimestamp(
+                blogi["createdon"]["$date"] / 1000
+            ).strftime("%Y-%m-%d")
+            blogi["id"] = blogi["_id"]["$oid"]
+            blogi["authorid"] = blogi["authorid"]["$oid"]
+        return {"profile": data, "blogs": {"Total_Blogs": len(author_blogs), "blogs": author_blogs}}
+    except ValidationError as v:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Profile Not Found")

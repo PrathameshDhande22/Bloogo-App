@@ -92,14 +92,11 @@ def sendVerificationMail(
 def verifyUser(
     token: Annotated[
         str, Path(description="An Email Send Verification Code", example="oerueikcvnsahut")
-    ],
-    udata: Annotated[tuple, Depends(verify_token)],
+    ]
 ):
     user_token_data = User.objects(verification=token).first()
     if user_token_data is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Invalid verification Code")
-    if user_token_data.email != udata[0]:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Unauthorized Person")
     user_token_data.update(set__isverified=True, set__verification=None)
     return {"message": "User Verified Successfully"}
 
