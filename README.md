@@ -92,10 +92,16 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Improved some Authentication in Frontend.
 
 - **Day 12 - 30 July 2023**
+
   - Implemented Logout,Profile and Email Verification Pages.
   - Implemented Protected Routes.
   - Created Account on Cloudinary for image uploading and image resizing.
   - Implemented Error Page 404 Not Found Page.
+
+- **Day 13 - 31 July 2023**
+  - Modified Update Endpoint of Backend.
+  - Added verify token without needing the token in Backend.
+  - Get Author profile with author related Blogs added in Backend.
 
 ## Guide :
 
