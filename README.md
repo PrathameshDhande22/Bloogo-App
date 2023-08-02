@@ -24,13 +24,17 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 2. [logo.com](https://app.logo.com/) for Creating the Bloogo logo.
 3. [write.as](https://write.as/) Reference for creating the blog. Using The above website design.
 4. [Footer Design](https://preview.colorlib.com/theme/bft/bootstrap-footer-17/#) Footer Design has been taken from the above website.
-5. [Moment.js](https://momentjs.com/) Used for Formatting the Date recieved From backend.
+5. [Day.js](https://day.js.org/) Used for Formatting the Date recieved From backend.
 6. [Html Parser](https://github.com/remarkablemark/html-react-parser) for converting the HTML string to JSX HTML.
 7. [Animate.css](https://animate.style/) for Animating some components.
 8. [Formik](https://formik.org/) used for handling client side validation of form data.
 9. [yup](https://github.com/jquense/yup) used for creating the form schema that can be used with formik.
 10. [Material UI](https://mui.com/) Great UI Components for react, creating the readymade and coding free components.
 11. [React Icons](https://react-icons.github.io/react-icons/) Icons for using in various pages to make user Interaction more attractive.
+12. [React Toastify](https://fkhadra.github.io/react-toastify/introduction) For adding the Notification to alert the user about any changes made by him.
+13. [React Loader Spinner](https://mhnpd.github.io/react-loader-spinner/) Using this Library we added the loading components where the loading of data takes place.
+14. [Loading.io](https://loading.io/) Using these website created the Loading.gif for showing with the react loader spinner.
+15. [React Jodit](https://xdsoft.net/jodit/) An Open Source WYSIWYG Editor using for writing the Blog.
 
 ## Timeline
 
@@ -99,9 +103,22 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Implemented Error Page 404 Not Found Page.
 
 - **Day 13 - 31 July 2023**
+
   - Modified Update Endpoint of Backend.
   - Added verify token without needing the token in Backend.
   - Get Author profile with author related Blogs added in Backend.
+
+- **Day 14 - 1 August 2023**
+
+  - Modified Profile Avatar in Header.
+  - Integrated the backend with profile Page.
+
+- **Day 15 - 2 August 2023**
+  - Implemented the Profile Popover.
+  - Implemented Profile Page
+  - Forgot Password and change Password Page added.
+  - Blog Page Added.
+  - Working on Write Blog Page.
 
 ## Guide :
 
