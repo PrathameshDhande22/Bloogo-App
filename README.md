@@ -35,6 +35,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 13. [React Loader Spinner](https://mhnpd.github.io/react-loader-spinner/) Using this Library we added the loading components where the loading of data takes place.
 14. [Loading.io](https://loading.io/) Using these website created the Loading.gif for showing with the react loader spinner.
 15. [React Jodit](https://xdsoft.net/jodit/) An Open Source WYSIWYG Editor using for writing the Blog.
+16. [React Select](https://react-select.com/home) Select component with create in it.
 
 ## Timeline
 
@@ -119,6 +120,10 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Forgot Password and change Password Page added.
   - Blog Page Added.
   - Working on Write Blog Page.
+
+- **Day 16 - 3 August 2023**
+  - Implemented Write Blog Page.
+  - Implemented API call for Write Blog Page.
 
 ## Guide :
 
