@@ -15,6 +15,8 @@ export default {
       raj: ["Rajdhani", "sans-serif"],
       noto: ["Noto Serif", "serif"],
       ysb: ["Ysabeau SC", "sans-serif"],
+      spec: ["Spectral", "serif"],
+      paci: ["Pacifico", "cursive"],
     },
     extend: {},
   },

@@ -15,6 +15,7 @@ export const BlogCards = ({ blogs }) => {
             tag={value.tag}
             thumbnail={value.thumbnail}
             title={value.title}
+            authorid={value.authorid}
           />
         );
       })}

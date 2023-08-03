@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&family=Lumanosimo&family=Merriweather&family=Noto+Serif:wght@400;500;700&family=REM:wght@200&family=Rajdhani&family=Ysabeau+SC:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&family=Lumanosimo&family=Merriweather&family=Noto+Serif:wght@400;500;700&family=Pacifico&family=REM:wght@200&family=Rajdhani&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Ysabeau+SC:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,5 +7,18 @@
 @layer components {
   .navlink-active {
     @apply font-extrabold border-b-4 border-indigo-600 py-1 px-4;
+  }
+
+  .sendbackground {
+    background-image: linear-gradient(
+      270deg,
+      rgba(95, 101, 255, 1) 0%,
+      rgba(177, 143, 244, 1) 50%,
+      rgba(191, 70, 255, 1) 100%
+    );
+  }
+
+  .errorpage {
+    text-shadow: -10px 0 0 #fff;
   }
 }

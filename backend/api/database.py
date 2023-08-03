@@ -11,7 +11,7 @@ class User(Document):
     dob = DateField()
     createdon = DateField(default=datetime.datetime.today().date())
     isgooglelogin = BooleanField(default=False)
-    profileurl = URLField()
+    profileurl = StringField()
     verification = StringField()
 
 
@@ -21,7 +21,7 @@ class Tags(Document):
 
 class Blog(Document):
     title = StringField()
-    thumbnail = URLField()
+    thumbnail = StringField()
     content = StringField()
     createdon = DateTimeField(default=datetime.datetime.today())
     createdby = EmailField()

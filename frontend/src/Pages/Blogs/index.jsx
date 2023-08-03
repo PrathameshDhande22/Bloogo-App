@@ -1,6 +1,6 @@
 import { GrArticle } from "react-icons/gr";
 import { SimpleSpinner } from "../../components/SimpleSpinner";
-import { getBlogs } from "../../service/api";
+import { getBlogs } from "../../api/api";
 import { useEffect, useState } from "react";
 import { ServiceError } from "../../components/ServiceError";
 import { BlogCards } from "../../components/BlogCards";

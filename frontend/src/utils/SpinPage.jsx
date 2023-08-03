@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { test } from "../service/api";
+import { test } from "../api/api";
 import Prop from "prop-types";
 import Spinner from "../components/Spinner";
 import { ServiceError } from "../components/ServiceError";

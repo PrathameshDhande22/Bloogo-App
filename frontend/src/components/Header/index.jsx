@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { GrClose } from "react-icons/gr";
@@ -6,13 +6,16 @@ import "animate.css";
 import "./index.css";
 import { useToken } from "../../Hooks/useToken";
 import { useSelector, useDispatch } from "react-redux";
-import { verifyUser } from "../../service/api";
+import { verifyUser } from "../../api/api";
 import { removeLogin, setLogin } from "../../Store/Reducer/LoginSlice";
 import { Profile } from "../Profile";
 import { deleteToken } from "../../utils/storetoken";
+import { VerifyHeader } from "../VerifyHeader";
 
 const Header = () => {
   const isAuthentic = useSelector((state) => state.login.isLogin);
+  const location = useLocation();
+  const isVerified = useSelector((state) => state.udata.userData?.isverified);
   const [isnavOpen, setnavOpen] = useState(false);
   const navi = useNavigate();
   const handleclick = () => {
@@ -44,7 +47,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex flex-row justify-between items-center md:m-5 m-2 z-10">
+      <header className="flex select-none flex-row justify-between items-center md:m-3 m-2 z-10">
         <NavLink to={"/"}>
           <img
             src="/favicon.ico"
@@ -139,7 +142,7 @@ const Header = () => {
               onClick={() => {
                 setnavOpen((prev) => !prev);
               }}
-              className="font-meri py-2 px-4 rounded-md  md:hidden"
+              className="font-meri py-2 px-2 rounded-md  md:hidden"
             >
               {isnavOpen ? (
                 <GrClose fontSize={30} className="rotate-90-ccw" />
@@ -211,6 +214,12 @@ const Header = () => {
           )}
         </NavLink>
       </header>
+      {isVerified ||
+      isVerified == undefined ||
+      location.pathname == "/send" ||
+      location.pathname == "/verify" ? null : (
+        <VerifyHeader />
+      )}
     </>
   );
 };

@@ -1,8 +1,25 @@
 import { Route, Routes } from "react-router-dom";
-import { Home, About, Developers, Blogs, SignUp, Login } from "../Pages";
+import {
+  Home,
+  About,
+  Developers,
+  Blogs,
+  SignUp,
+  Login,
+  Profile,
+  Send,
+  Verify,
+  Error,
+  Forgot,
+  ChangePassword,
+  Blog,
+  NewBlog,
+} from "../Pages";
 import { SpinPage } from "../utils/SpinPage";
 import { useSelector } from "react-redux";
 import { RemoveAccess } from "../components/RemoveAccess";
+import AuthProvider from "../Auth";
+import { CheckAccess } from "../components/CheckAccess";
 
 const NestedComponents = {
   home: (
@@ -10,10 +27,17 @@ const NestedComponents = {
       <Home />
     </SpinPage>
   ),
+  newblog: (
+    <CheckAccess>
+      <NewBlog />
+    </CheckAccess>
+  ),
 };
 
 const Content = () => {
   const isAuthentic = useSelector((state) => state.login.isLogin);
+  const uData = useSelector((state) => state.udata.userData.isverified);
+
   return (
     // TODO : Add the Dashboard Page.
     <Routes>
@@ -31,6 +55,16 @@ const Content = () => {
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/signup" element={<RemoveAccess element={<SignUp />} />} />
       <Route path="/login" element={<RemoveAccess element={<Login />} />} />
+      <Route path="/forgot" element={<Forgot />} />
+      <Route path="/blog/:blogid" element={<Blog />} />
+      <Route path="/verify/:token" element={uData ? <Error /> : <Verify />} />
+      <Route element={<AuthProvider />}>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/change" element={<ChangePassword />} />
+        <Route path="/send" element={uData ? <Error /> : <Send />} />
+        <Route path="/blog/new" element={NestedComponents.newblog} />
+      </Route>
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 };

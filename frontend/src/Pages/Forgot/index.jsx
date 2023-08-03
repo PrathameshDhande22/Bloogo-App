@@ -1,63 +1,24 @@
-import { useTitle } from "../../Hooks/useTitle";
-import { LoginSignBackground } from "../../components/LoginSignBackground";
 import {
   Box,
-  TextField,
-  InputLabel,
-  Input,
-  InputAdornment,
-  IconButton,
   FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  TextField,
+  Input,
 } from "@mui/material";
-import { AccountCircle, VisibilityOff, Visibility } from "@mui/icons-material";
+import { useTitle } from "../../Hooks/useTitle";
+import { LoginSignBackground } from "../../components/LoginSignBackground";
+import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { login_Schema } from "../../Schemas/scheme";
-import { loginUser } from "../../api/api";
+import { forgot_Schema } from "../../Schemas/scheme";
+import { forgotPassword } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
-import { saveToken } from "../../utils/storetoken";
-import { useDispatch } from "react-redux";
-import { setLogin } from "../../Store/Reducer/LoginSlice";
+import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
-  useTitle("Login");
-  const navi = useNavigate();
-  const dispatch = useDispatch();
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: login_Schema,
-    onSubmit: (value) => {
-      const fd = new FormData();
-      fd.append("email", value.email);
-      fd.append("password", value.password);
-
-      loginUser(fd)
-        .then((res) => {
-          saveToken(res.data?.Access_Token);
-          handleLogin();
-          toast.success("Login Successful.");
-          setTimeout(() => {
-            navi("/");
-          }, 4000);
-        })
-        .catch((res) => {
-          if (res?.response?.status === 401) {
-            toast.error("Invalid Password !");
-          } else if (res?.response?.status === 404) {
-            toast.warn("Email ID not Found Register First.");
-          } else if (res?.response?.status === 422) {
-            toast.error("One or more Field is Wrong");
-          } else {
-            toast.error("Something Wrong at Our End, Try Again Later");
-          }
-        });
-    },
-  });
+export const Forgot = () => {
+  useTitle("Forgot Password");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -67,10 +28,32 @@ export const Login = () => {
     event.preventDefault();
   };
 
-  const handleLogin = () => {
-    dispatch(setLogin());
-  };
-
+  const navi = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: forgot_Schema,
+    onSubmit: (value) => {
+      forgotPassword({ email: value.email, password: value.password })
+        .then(() => {
+          toast.success("Password Changed Successfully.");
+          setTimeout(() => {
+            navi("/");
+          }, 2500);
+        })
+        .catch((res) => {
+          if (res?.response?.status === 404) {
+            toast.error("Email ID Doesn't Exists");
+          } else if (res?.response?.status === 422) {
+            toast.error("Email ID is Wrong.");
+          } else {
+            toast.error("Something Wrong at Our End.");
+          }
+        });
+    },
+  });
   return (
     <>
       <ToastContainer
@@ -91,9 +74,9 @@ export const Login = () => {
           onSubmit={formik.handleSubmit}
         >
           <div className="font-raj font-bold md:text-2xl text-xl py-1 px-6 border-b-2 border-indigo-400 uppercase animate__animated animate__rubberBand animate__delay-1s animate__repeat-2 animate__slow select-none">
-            Login
+            Forgot Password
           </div>
-          <div className="w-full flex flex-col items-center gap-3">
+          <div className="w-full flex flex-col items-center gap-3 mt-3">
             <Box
               sx={{
                 display: "flex",
@@ -120,7 +103,7 @@ export const Login = () => {
               />
             </Box>
             <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
-              <InputLabel htmlFor="password">Enter Password</InputLabel>
+              <InputLabel htmlFor="password">Enter New Password</InputLabel>
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
@@ -148,31 +131,15 @@ export const Login = () => {
                 </span>
               ) : null}
             </FormControl>
-            <Link
-              to={"/forgot"}
-              className="self-end font-ysb font-semibold -mt-5"
-            >
-              <span className="text-indigo-600 hover:border-b-2 border-b-indigo-500">
-                Forgot Password ?
-              </span>
-            </Link>
             <button
               type="submit"
               name="submit"
               className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
             >
-              Login
+              Submit
             </button>
           </div>
         </form>
-        <div className="mt-3 font-ysb flex flex-col justify-center items-center text-base">
-          <span>{"Don't Have an Account"}</span>{" "}
-          <Link to={"/signup"}>
-            <span className="text-indigo-500 font-bold py-0 hover:border-b-2 border-indigo-500">
-              Create Account
-            </span>
-          </Link>
-        </div>
       </LoginSignBackground>
     </>
   );

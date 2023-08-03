@@ -1,7 +1,7 @@
 import Prop from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
-import { verifyUser } from "../../service/api";
+import { verifyUser } from "../../api/api";
 import { useToken } from "../../Hooks/useToken";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner";
@@ -11,7 +11,7 @@ export const RemoveAccess = ({ element }) => {
   const [isAuthentic, setAuthentic] = useState(true);
   const token = useToken();
   useEffect(() => {
-    if (token != null) {
+    if (token != undefined) {
       verifyUser(token)
         .then((res) => {
           if (res.status === 200) {

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Prop from "prop-types";
 import parse from "html-react-parser";
-import moment from "moment/moment";
+import dayjs from "dayjs";
 
 export const BlogCard = ({
   name,
@@ -11,14 +11,15 @@ export const BlogCard = ({
   content,
   thumbnail,
   tag,
+  authorid,
 }) => {
-  const formatedDate = moment(date).format("DD MMMM YYYY").toString();
+  const formatedDate = dayjs(date).format("DD MMMM YYYY").toString();
   return (
     <div className="px-3 py-2 border-2 border-gray-200 rounded-md inline-block md:w-9/12 w-full">
       <div className="space-y-2">
         <span className="font-gara text-base space-x-1">
-          <span className="font-bold">
-            <Link to={`/author/${name}`}>{name}</Link>
+          <span className="font-bold hover:border-b-2 border-indigo-500 ">
+            <Link to={`/author/${authorid}`}>{name}</Link>
           </span>
           <span>.</span>
           <span className="italic">{formatedDate}</span>
@@ -58,4 +59,5 @@ BlogCard.propTypes = {
   content: Prop.string,
   thumbnail: Prop.any,
   tag: Prop.string,
+  authorid: Prop.string,
 };

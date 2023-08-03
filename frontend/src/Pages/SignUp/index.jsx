@@ -14,7 +14,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { signup_Schema } from "../../Schemas/scheme";
-import { registerUser } from "../../service/api";
+import { registerUser } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

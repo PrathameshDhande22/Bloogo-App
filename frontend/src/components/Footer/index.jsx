@@ -6,37 +6,19 @@ import { Tooltip } from "react-tooltip";
 
 export const IconsFooter = [
   {
-    icon: (
-      <GitHub
-        key={0}
-        style={{ fontSize: 30 }}
-        className="hover:text-indigo-600"
-      />
-    ),
-    link: "https://www.github.com/Prathameshdhande22",
+    icon: <GitHub key={0} style={{ fontSize: 30 }} />,
+    link: "https://github.com/PrathameshDhande22/Bloogo-App",
     classname: "github",
     title: "Github",
   },
   {
-    icon: (
-      <LinkedIn
-        key={1}
-        style={{ fontSize: 30 }}
-        className="hover:text-indigo-600"
-      />
-    ),
+    icon: <LinkedIn key={1} style={{ fontSize: 30 }} />,
     link: "https://www.linkedin.com/in/prathamesh-dhande-3a039721a/",
     classname: "linkedin",
     title: "LinkedIn",
   },
   {
-    icon: (
-      <Instagram
-        key={2}
-        style={{ fontSize: 30 }}
-        className="hover:text-indigo-600"
-      />
-    ),
+    icon: <Instagram key={2} style={{ fontSize: 30 }} />,
     link: "https://instagram.com/prathameshdhande5139",
     classname: "insta",
     title: "Instagram",
@@ -68,7 +50,7 @@ const Footer = () => {
             <span className="hover:text-black">Developers</span>
           </NavLink>
         </div>
-        <div className="flex flex-row gap-5 flex-wrap">
+        <div className="flex flex-row mx-3 gap-5 flex-wrap">
           {IconsFooter.map((value, index) => {
             return (
               <Link to={value.link} key={index}>
@@ -82,7 +64,7 @@ const Footer = () => {
                   {value.title}
                 </Tooltip>
                 <button
-                  className={`border-indigo-600 border-2 rounded-full p-2 ${value.classname}`}
+                  className={`border-indigo-600 border-2 rounded-full hover:text-indigo-600 p-2`}
                 >
                   {value.icon}
                 </button>
@@ -91,7 +73,7 @@ const Footer = () => {
           })}
         </div>
       </div>
-      <div className="flex flex-col flex-wrap justify-center items-center gap-2 text-base">
+      <div className="flex flex-col flex-wrap justify-center items-center gap-2 mx-3 text-base">
         <span>Copyright © 2023 All rights reserved</span>
         <span>
           Made with <Favorite style={{ color: "red", fontSize: 18 }} /> by{" "}
