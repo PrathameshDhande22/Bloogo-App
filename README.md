@@ -36,6 +36,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 14. [Loading.io](https://loading.io/) Using these website created the Loading.gif for showing with the react loader spinner.
 15. [React Jodit](https://xdsoft.net/jodit/) An Open Source WYSIWYG Editor using for writing the Blog.
 16. [React Select](https://react-select.com/home) Select component with create in it.
+17. [Reading Time Estimator](https://www.npmjs.com/package/reading-time-estimator) Used for Read the whole blog and estimate the time to read it.
 
 ## Timeline
 
@@ -115,6 +116,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Integrated the backend with profile Page.
 
 - **Day 15 - 2 August 2023**
+
   - Implemented the Profile Popover.
   - Implemented Profile Page
   - Forgot Password and change Password Page added.
@@ -124,6 +126,18 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 - **Day 16 - 3 August 2023**
   - Implemented Write Blog Page.
   - Implemented API call for Write Blog Page.
+
+- **Day 17 - 4 August 2023**
+  - Optimized the Code for Frequently appearing Dialog Boxes.
+  - Fixed the Blog Thumbnail Not uploading.
+  - Reading Time Estimator and Uploaded the blogs in min,hours,day ago in Blog View Page.
+  - Fixed Jodit Editor for Various Toolbar.
+
+## Future Work : 
+1. Google Login
+2. Dark Mode Feature
+3. Automate Blog Thumbnail
+4. Share On Socials
 
 ## Guide :
 
