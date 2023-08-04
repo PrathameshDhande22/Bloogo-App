@@ -33,9 +33,9 @@ export const Taglist = ({ selected, data }) => {
 
   return (
     <div className="space-y-3">
-    <span className="font-mono text-xl">Select Appropriate Tag : </span>
+      <span className="font-mono text-xl">Select Appropriate Tag : </span>
       <Creatable
-        className="border-2 border-indigo-500 rounded-md"
+        className="border-2 w-40 border-indigo-500 rounded-md"
         options={tags}
         onCreateOption={handleAddTag}
         theme={{

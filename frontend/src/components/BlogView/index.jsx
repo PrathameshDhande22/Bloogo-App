@@ -2,8 +2,9 @@ import Prop from "prop-types";
 import { getThumbnailURL } from "../../utils/imageurl";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
 import parse from "html-react-parser";
+import { readingTime } from "reading-time-estimator";
+import moment from "moment/moment";
 
 export const BlogView = ({ blogdata }) => {
   const [imgsrc, setImgsrc] = useState(null);
@@ -23,6 +24,9 @@ export const BlogView = ({ blogdata }) => {
         <div className="font-mono font-extrabold text-2xl sm:text-4xl self-start tracking-wide">
           {blogdata?.title}
         </div>
+        <div className="self-start font-mono italic">
+          {readingTime(String(blogdata?.content), 60).text}
+        </div>
         <div className="self-start flex flex-col gap-1 ">
           <Link
             to={`/author/${blogdata?.authorid}`}
@@ -31,10 +35,10 @@ export const BlogView = ({ blogdata }) => {
             {blogdata?.name}
           </Link>
           <span className="font-raj select-none font-semibold italic text-sm">
-            {dayjs(blogdata?.createdon).format("DD MMMM YYYY").toString()}
+            {moment(blogdata?.createdon).fromNow().toString()}
           </span>
         </div>
-        <div className="font-noto leading-relaxed tracking-wide">
+        <div className="font-noto self-start leading-relaxed tracking-wide">
           {parse(String(blogdata.content))}
         </div>
         <div className="self-start">

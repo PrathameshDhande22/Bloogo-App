@@ -9,16 +9,11 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getImageURL } from "../../utils/imageurl";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import { useToken } from "../../Hooks/useToken";
 import { Edit, Upload } from "@mui/icons-material";
 import { updateProfile, uploadPhoto } from "../../api/api";
+import { DialogComponent } from "../../components/DialogComponent";
 
 export const Profile = () => {
   const userdata = useSelector((state) => state.udata.userData);
@@ -238,11 +233,12 @@ export const Profile = () => {
         </div>
       </div>
       <>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>
+        <DialogComponent
+          open={open}
+          title={
             <span className="font-spec text-xl font-bold">Update Profile</span>
-          </DialogTitle>
-          <DialogContent>
+          }
+          content={
             <div className="font-noto">
               {uploadFile == null ? (
                 <span className="flex flex-col flex-wrap gap-3">
@@ -275,8 +271,8 @@ export const Profile = () => {
                 </span>
               )}
             </div>
-          </DialogContent>
-          <DialogActions>
+          }
+          actions={
             <div className="flex flex-row gap-2  flex-wrap">
               <button
                 className="font-spec text-lg font-bold px-3 py-1 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-{bg} ease-in-out duration-200"
@@ -293,8 +289,9 @@ export const Profile = () => {
                 Cancel
               </button>
             </div>
-          </DialogActions>
-        </Dialog>
+          }
+          setFunction={setOpen}
+        />
       </>
     </div>
   );

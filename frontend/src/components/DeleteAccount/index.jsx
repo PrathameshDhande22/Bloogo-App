@@ -1,10 +1,3 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@mui/material";
 import { Close, QuestionMark } from "@mui/icons-material";
 import Prop from "prop-types";
 import { useDispatch } from "react-redux";
@@ -14,6 +7,7 @@ import { deleteToken } from "../../utils/storetoken";
 import { useNavigate } from "react-router-dom";
 import { deleteUserProfile } from "../../api/api";
 import { useToken } from "../../Hooks/useToken";
+import { DialogComponent } from "../DialogComponent";
 
 export const DeleteAccount = ({ open, setOpen }) => {
   const handleClose = () => {
@@ -38,15 +32,9 @@ export const DeleteAccount = ({ open, setOpen }) => {
 
   return (
     <>
-      <Dialog
+      <DialogComponent
         open={open}
-        keepMounted
-        onClose={handleClose}
-        fullWidth
-        aria-describedby="alert-dialog-slide-description"
-        color="red"
-      >
-        <DialogTitle>
+        title={
           <div className="flex flex-row justify-between text-xl font-bold">
             <span className="font-gara text-lg flex flex-row items-center">
               Delete <QuestionMark sx={{ color: "red", fontSize: 20 }} />
@@ -57,23 +45,8 @@ export const DeleteAccount = ({ open, setOpen }) => {
               </button>
             </span>
           </div>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText
-            id="alert-dialog-slide-description"
-            fontFamily={"cursive"}
-            fontSize={17}
-          >
-            <span className="block font-gara font-semibold">
-              <span> Are U Sure you want to Delete Your Account</span>
-              <br />
-              <span>
-                This will delete your account as well as Blogs that you Posted.
-              </span>
-            </span>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
+        }
+        actions={
           <div className="flex flex-row gap-2  flex-wrap">
             <button
               className="font-spec text-lg font-bold px-3 py-1 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-{bg} ease-in-out duration-200"
@@ -90,8 +63,18 @@ export const DeleteAccount = ({ open, setOpen }) => {
               No
             </button>
           </div>
-        </DialogActions>
-      </Dialog>
+        }
+        content={
+          <span className="block font-gara font-semibold">
+            <span> Are U Sure you want to Delete Your Account</span>
+            <br />
+            <span>
+              This will delete your account as well as Blogs that you Posted.
+            </span>
+          </span>
+        }
+        setFunction={setOpen}
+      />
     </>
   );
 };

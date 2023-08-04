@@ -1,30 +1,22 @@
-import { Close, Send, Upload } from "@mui/icons-material";
+import { Close, FileUpload, Send, Upload } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import JoditEditor from "jodit-react";
 import { useTitle } from "../../Hooks/useTitle";
 import { Taglist } from "../../components/TagList";
-import {
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { CircularProgress, TextField, Tooltip } from "@mui/material";
 import { useToken } from "../../Hooks/useToken";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { newBlog, uploadPhoto } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { DialogComponent } from "../../components/DialogComponent";
 
 export const Loading = () => {
   return (
     <>
       <div className="font-noto flex flex-row gap-3 items-center px-4 py-2 text-white bg-indigo-500 rounded-md text-sm sm:text-base select-none ">
         <span>Publishing</span>
-        <CircularProgress thickness={4} size={30} sx={{ color: "white" }} />
+        <CircularProgress thickness={4} size={20} sx={{ color: "white" }} />
       </div>
     </>
   );
@@ -60,8 +52,11 @@ export const NewBlog = () => {
       uploadPhoto(formdata)
         .then((res) => {
           setData({ ...data, thumbnail: res.data?.public_id });
+          toast.success("Thumbnail Uploaded Successfully");
         })
-        .catch(() => {});
+        .catch(() => {
+          toast.error("Something Wrong with Server.");
+        });
     }
   };
 
@@ -95,9 +90,6 @@ export const NewBlog = () => {
 
   const handleThumbnail = (e) => {
     setuploadFile(e.target.files[0]);
-    setTimeout(() => {
-      uploadThumbnail();
-    }, 2000);
   };
 
   return (
@@ -156,13 +148,21 @@ export const NewBlog = () => {
             </div>
           </>
         ) : (
-          <Tooltip title="Blog Thumbnail" followCursor placement="top">
-            <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col gap-3 justify-center items-center">
+            <Tooltip title="Blog Thumbnail" followCursor placement="top">
               <img src={URL.createObjectURL(uploadFile)} />
-            </div>
-          </Tooltip>
+            </Tooltip>
+            <button
+              type="button"
+              className="font- font-spec bg-lime-400 py-1 px-5 rounded-md text-indigo-900 hover:bg-lime-600 hover:text-white transition-colors"
+              onClick={uploadThumbnail}
+            >
+              <FileUpload /> Upload Thumbnail
+            </button>
+          </div>
         )}
         <TextField
+          type="text"
           placeholder="Enter Blog Title"
           onChange={(e) => {
             setData({ ...data, title: e.target.value });
@@ -175,7 +175,7 @@ export const NewBlog = () => {
           value={data.content}
           config={{
             buttons:
-              "bold,italic,underline,strikethrough,ul,ol,font,fontsize,paragraph,lineHeight,superscript,subscript,image,cut,copy,paste,selectall,hr,table,preview",
+              "bold,italic,underline,strikethrough,ul,ol,font,fontsize,paragraph,classSpan,lineHeight,superscript,subscript,image,cut,copy,paste,hr,table,preview,indent,outdent,left,justify,center,right",
             enter: "p",
             height: "600px",
             width: "auto",
@@ -189,15 +189,9 @@ export const NewBlog = () => {
         />
         <Taglist selected={setData} data={data} />
       </div>
-      <Dialog
+      <DialogComponent
         open={open}
-        keepMounted
-        onClose={handleClose}
-        fullWidth
-        aria-describedby="alert-dialog-slide-description"
-        color="red"
-      >
-        <DialogTitle>
+        title={
           <div className="flex flex-row justify-between text-xl font-bold">
             <span className="font-gara text-lg space-x-2 flex flex-row items-center">
               <span>Field Empty </span>
@@ -209,15 +203,13 @@ export const NewBlog = () => {
               </button>
             </span>
           </div>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description" fontSize={17}>
-            <span className="font-noto">
-              Check The Title, Content and Tag if you left it Blank or Not.
-            </span>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
+        }
+        content={
+          <span className="font-noto">
+            Check The Title, Content and Tag if you left it Blank or Not.
+          </span>
+        }
+        actions={
           <button
             className="font-spec text-lg font-bold px-3 py-1 m-3 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-{bg} ease-in-out duration-200"
             type="button"
@@ -225,8 +217,9 @@ export const NewBlog = () => {
           >
             OK
           </button>
-        </DialogActions>
-      </Dialog>
+        }
+        setFunction={setOpen}
+      />
     </div>
   );
 };
