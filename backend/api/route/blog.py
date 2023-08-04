@@ -96,9 +96,7 @@ def viewAllBlog(
         blogs = Blog.objects(query).to_json()
     blogs = json.loads(blogs)
     for blogi in blogs:
-        blogi["createdon"] = datetime.datetime.utcfromtimestamp(
-            blogi["createdon"]["$date"] / 1000
-        ).strftime("%Y-%m-%d")
+        blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
         blogi["id"] = blogi["_id"]["$oid"]
         blogi["authorid"] = blogi["authorid"]["$oid"]
     return {"Total_Blogs": len(blogs), "blogs": blogs}
@@ -120,7 +118,7 @@ def getBlogById(id: Annotated[str, Path(description="Blog Unique ID", example="d
         blog_data["id"] = blog_data["_id"]["$oid"]
         blog_data["createdon"] = datetime.datetime.utcfromtimestamp(
             blog_data["createdon"]["$date"] / 1000
-        ).strftime("%Y-%m-%d")
+        )
         blog_data["authorid"] = blog_data["authorid"]["$oid"]
         return blog_data
     except ValidationError as v:
@@ -190,9 +188,7 @@ def getBlogsUser(udata: Annotated[tuple, Depends(verify_token)]):
     blog_data = Blog.objects(authorid=udata[2]).order_by("createdon")
     blogs = json.loads(blog_data.to_json())
     for blogi in blogs:
-        blogi["createdon"] = datetime.datetime.utcfromtimestamp(
-            blogi["createdon"]["$date"] / 1000
-        ).strftime("%Y-%m-%d")
+        blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
         blogi["id"] = blogi["_id"]["$oid"]
         blogi["authorid"] = blogi["authorid"]["$oid"]
     return {"Total_Blogs": len(blogs), "blogs": blogs}

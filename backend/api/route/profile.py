@@ -159,7 +159,7 @@ def getAuthorProfile(
         for blogi in author_blogs:
             blogi["createdon"] = datetime.datetime.utcfromtimestamp(
                 blogi["createdon"]["$date"] / 1000
-            ).strftime("%Y-%m-%d")
+            )
             blogi["id"] = blogi["_id"]["$oid"]
             blogi["authorid"] = blogi["authorid"]["$oid"]
         return {"profile": data, "blogs": {"Total_Blogs": len(author_blogs), "blogs": author_blogs}}
