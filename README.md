@@ -37,6 +37,9 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 15. [React Jodit](https://xdsoft.net/jodit/) An Open Source WYSIWYG Editor using for writing the Blog.
 16. [React Select](https://react-select.com/home) Select component with create in it.
 17. [Reading Time Estimator](https://www.npmjs.com/package/reading-time-estimator) Used for Read the whole blog and estimate the time to read it.
+18. [Error Page Reference](https://colorlib.com/etc/404/colorlib-error-404-3/) From the above website the error page design has been made.
+19. [moment.js](https://momentjs.com/) JS library for date utility for giving from how many hours or minutes have been over by uploading this blog.
+20. [animista.net](https://animista.net/) For providing the CSS Animations for the Hamburger menu component.
 
 ## Timeline
 
@@ -124,6 +127,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Working on Write Blog Page.
 
 - **Day 16 - 3 August 2023**
+
   - Implemented Write Blog Page.
   - Implemented API call for Write Blog Page.
 
@@ -133,7 +137,18 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Reading Time Estimator and Uploaded the blogs in min,hours,day ago in Blog View Page.
   - Fixed Jodit Editor for Various Toolbar.
 
-## Future Work : 
+- **Day 18 - 5 August 2023**
+  - Fixed some bugs in Backend related to Date in blog.
+  - Implemented Dashboard page for login User.
+  - Delete and Edit button Added for each blog for the user who has created the blog.
+  - Public Profile page Implemented using which User's can view Bloogo Blog Author Profile.
+  - Fixed Some Issue related to Profile Picture in Profile Component
+  - Added the Share button to share the blog with various Social Media.
+  - Fixed Upload Button Issue in Upload Thumbnail in Create New Blog Page.
+  - 
+
+## Future Work :
+
 1. Google Login
 2. Dark Mode Feature
 3. Automate Blog Thumbnail
