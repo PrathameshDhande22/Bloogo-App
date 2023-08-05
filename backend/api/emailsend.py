@@ -12,7 +12,7 @@ def send_email(token: str, email: str) -> bool:
     html_content = f"""
     <html>
     <body>
-    <h1>Bloogo</h1><br/>
+    <img src="https://ucarecdn.com/89fbacf2-2a73-4224-9659-c28140e2f50c/-/preview/200x200/-/quality/smart/-/format/auto/" alt="bloogo logo"><br/>
     <h2>Thank You For Registering With Us.</h2>
     <p>Verify Your Email Address by using the below verification Code</p>
     <p><b>Verification Link :- </b><strong><a href="{url}/verify/{token}">Click Here</a></strong></p>

@@ -36,7 +36,7 @@ class BlogModel(BaseModel):
         description="Blog Thumbnail URL", examples=["https://www.giphy.com/defualt.png"]
     )
     content: str = Field(description="An Blog Content in HTML Format")
-    createdon: datetime = Field(description="Blog created Date", default=datetime.today())
+    createdon: datetime = Field(description="Blog created Date", default=datetime.now())
     tag: str = Field(description="Tag name for the Blog", examples=["Python"])
     name: str = Field(description="Author Name which added the blog", examples=["John Kevlar"])
     authorid: str = Field(description="Author id")
@@ -52,7 +52,7 @@ class RegisterModel(BaseModel):
     password: str = Field(description="Password", examples=["johnny@12"])
     isgooglelogin: bool = False
     isverified: bool = False
-    createdon: date = datetime.today().date()
+    createdon: date = datetime.now().date()
 
 
 class UserModel(BaseModel):

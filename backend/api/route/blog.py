@@ -61,6 +61,7 @@ def createNewBlog(
             createdby=user_data.email,
             name=full_name,
             authorid=user_data.id,
+            createdon=datetime.datetime.now(),
         ).save()
         return {"message": "Blog Added Successfully"}
     except ValidationError as e:
@@ -185,7 +186,7 @@ def deleteblog(
     response_description="List of Blog",
 )
 def getBlogsUser(udata: Annotated[tuple, Depends(verify_token)]):
-    blog_data = Blog.objects(authorid=udata[2]).order_by("createdon")
+    blog_data = Blog.objects(authorid=udata[2]).order_by("-createdon")
     blogs = json.loads(blog_data.to_json())
     for blogi in blogs:
         blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
