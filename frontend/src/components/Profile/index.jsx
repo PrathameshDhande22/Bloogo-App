@@ -29,6 +29,7 @@ export const Profile = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.udata.userData);
   const token = useToken();
+  const [imgsrc, setImgsrc] = useState(null);
 
   useEffect(() => {
     const setprofile = (newdata) => {
@@ -37,6 +38,9 @@ export const Profile = () => {
     getProfile(token)
       .then((res) => {
         setprofile(res.data);
+        if (res.data?.profileurl !== null) {
+          setImgsrc(getImageURL(res.data?.profileurl));
+        }
       })
       .catch(() => {
         navi("/");
@@ -66,7 +70,6 @@ export const Profile = () => {
     setOpenDelete(true);
   };
 
-  const imgsrc = getImageURL(data?.profileurl);
   return (
     <>
       <button

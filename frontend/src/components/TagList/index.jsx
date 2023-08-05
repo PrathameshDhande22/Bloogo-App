@@ -48,6 +48,10 @@ export const Taglist = ({ selected, data }) => {
         onChange={(e) => {
           selected({ ...data, tag: e.value });
         }}
+        formatCreateLabel={(value) => {
+          return `Create Tag ${value}`;
+        }}
+        required
       />
     </div>
   );

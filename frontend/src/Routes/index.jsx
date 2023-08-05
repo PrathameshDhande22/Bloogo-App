@@ -14,6 +14,9 @@ import {
   ChangePassword,
   Blog,
   NewBlog,
+  Dashboard,
+  PublicProfile,
+  Edit,
 } from "../Pages";
 import { SpinPage } from "../utils/SpinPage";
 import { useSelector } from "react-redux";
@@ -39,16 +42,15 @@ const Content = () => {
   const uData = useSelector((state) => state.udata.userData.isverified);
 
   return (
-    // TODO : Add the Dashboard Page.
     <Routes>
       <Route
         path="/"
-        element={isAuthentic ? null : NestedComponents?.home}
+        element={isAuthentic ? <Dashboard /> : NestedComponents?.home}
         index
       />
       <Route
         path="/home"
-        element={isAuthentic ? null : NestedComponents?.home}
+        element={isAuthentic ? <Dashboard /> : NestedComponents?.home}
       />
       <Route path="/about" element={<About />} />
       <Route path="/developer" element={<Developers />} />
@@ -57,12 +59,14 @@ const Content = () => {
       <Route path="/login" element={<RemoveAccess element={<Login />} />} />
       <Route path="/forgot" element={<Forgot />} />
       <Route path="/blog/:blogid" element={<Blog />} />
+      <Route path="/author/:authorid" element={<PublicProfile />} />
       <Route path="/verify/:token" element={uData ? <Error /> : <Verify />} />
       <Route element={<AuthProvider />}>
         <Route path="/profile" element={<Profile />} />
         <Route path="/change" element={<ChangePassword />} />
         <Route path="/send" element={uData ? <Error /> : <Send />} />
         <Route path="/blog/new" element={NestedComponents.newblog} />
+        <Route path="/blog/:id/edit" element={<Edit />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>

@@ -5,7 +5,7 @@ const About = () => {
   useTitle("About");
   return (
     <main>
-      <div className="my-5 md:my-10">
+      <div className="my-10">
         <div className="mx-10 lg:mx-72 flex flex-col gap-5 justify-center  text-justify items-center">
           <span className="text-2xl md:text-4xl font-gara font-bold self-start">
             About

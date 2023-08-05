@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useTitle } from "../../Hooks/useTitle";
 import userImage from "../../assets/user.png";
-import { CircularProgress, TextField, Tooltip } from "@mui/material";
+import { Avatar, CircularProgress, TextField, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -11,12 +11,14 @@ import { useEffect } from "react";
 import { getImageURL } from "../../utils/imageurl";
 import { ToastContainer, toast } from "react-toastify";
 import { useToken } from "../../Hooks/useToken";
-import { Edit, Upload } from "@mui/icons-material";
+import { Upload } from "@mui/icons-material";
 import { updateProfile, uploadPhoto } from "../../api/api";
 import { DialogComponent } from "../../components/DialogComponent";
+import { TbEditCircle } from "react-icons/tb";
 
 export const Profile = () => {
   const userdata = useSelector((state) => state.udata.userData);
+  const [imgsrc, setImgsrc] = useState(null);
   const navi = useNavigate();
   const [userState, setUserState] = useState({
     firstname: "",
@@ -30,6 +32,9 @@ export const Profile = () => {
       lastname: userdata.lastname === null ? "" : userdata.lastname,
       dob: userdata.dob === null ? "" : userdata.dob,
     });
+    if (userdata?.profileurl !== null) {
+      setImgsrc(getImageURL(userdata.profileurl));
+    }
   }, [userdata]);
 
   const [updateBlack, setupdateBlack] = useState(false);
@@ -106,7 +111,6 @@ export const Profile = () => {
     }
   };
 
-  const imgsrc = getImageURL(userdata.profileurl);
   useTitle("Profile");
   return (
     <div className="flex flex-col justify-center items-center md:w-full my-10 mx-4">
@@ -141,26 +145,19 @@ export const Profile = () => {
                   type="button"
                   onMouseOver={() => setupdateBlack(true)}
                   onMouseOut={() => setupdateBlack(false)}
-                  className="sm:w-56 w-32 relative  rounded-full"
+                  className="relative  rounded-full"
                 >
                   {userdata.profileurl == null ? (
-                    <img src={userImage} alt="User Image" />
+                    <img src={userImage} alt="User Image" className="w-40"/>
                   ) : (
-                    <img src={imgsrc} alt="User Image" />
+                    <Avatar src={imgsrc} sx={{ height: 200, width: 200 }} />
                   )}
                   <div
                     className={`w-full h-full rounded-full opacity-60 absolute top-0 z-40  bg-black ${
                       updateBlack ? "visible" : "hidden"
                     } flex justify-center items-center`}
                   >
-                    <Edit
-                      sx={{
-                        color: "white",
-                        display: "block",
-                        fontSize: "100px",
-                        opacity: 100,
-                      }}
-                    />
+                    <TbEditCircle color="white" fontSize={100} />
                   </div>
                 </button>
               </Tooltip>

@@ -195,3 +195,40 @@ export const newBlog = (token, data) => {
     },
   });
 };
+
+/**
+ * View all the user related Blogs.
+ * @param {String} token
+ * @returns Axios Promise
+ */
+export const getUserBlogs = (token) => {
+  return apicall.get("/api/blogs/user", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+/**
+ * Get Author complete Details including Blogs and profile data.
+ * @param {String} id
+ * @returns Axios Promise
+ */
+export const getAuthorData = (id) => {
+  return apicall.get(`/api/user/profile/${id}`);
+};
+
+/**
+ * Deletes the user Blog
+ * @param {String} id
+ * @param {String} token
+ * @returns Axios Promise
+ */
+export const deleteBlog = (id, token) => {
+  return apicall.delete(`/api/blog/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+

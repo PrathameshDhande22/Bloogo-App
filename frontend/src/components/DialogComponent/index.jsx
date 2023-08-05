@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@mui/material";
 import Prop from "prop-types";
@@ -27,11 +26,7 @@ export const DialogComponent = ({
       aria-describedby="alert-dialog-slide-description"
     >
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description" fontSize={17}>
-          {content}
-        </DialogContentText>
-      </DialogContent>
+      <DialogContent>{content}</DialogContent>
       <DialogActions>{actions}</DialogActions>
     </Dialog>
   );

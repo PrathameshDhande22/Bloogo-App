@@ -12,6 +12,9 @@ import { Forgot } from "./Forgot";
 import { ChangePassword } from "./ChangePassword";
 import { Blog } from "./Blog";
 import { NewBlog } from "./NewBlog";
+import { Dashboard } from "./Dashboard";
+import { PublicProfile } from "./PublicProfile";
+import { Edit } from "./Edit";
 
 export {
   Home,
@@ -28,4 +31,7 @@ export {
   ChangePassword,
   Blog,
   NewBlog,
+  Dashboard,
+  PublicProfile,
+  Edit,
 };

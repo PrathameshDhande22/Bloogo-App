@@ -1,6 +1,6 @@
 import { Close, FileUpload, Send, Upload } from "@mui/icons-material";
 import { useRef, useState } from "react";
-import JoditEditor from "jodit-react";
+import JoditEditor, { Jodit } from "jodit-react";
 import { useTitle } from "../../Hooks/useTitle";
 import { Taglist } from "../../components/TagList";
 import { CircularProgress, TextField, Tooltip } from "@mui/material";
@@ -24,7 +24,7 @@ export const Loading = () => {
 
 export const NewBlog = () => {
   useTitle("New Blog");
-
+  const [uploaded, setUploaded] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [uploadFile, setuploadFile] = useState(null);
 
@@ -51,6 +51,7 @@ export const NewBlog = () => {
       formdata.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
       uploadPhoto(formdata)
         .then((res) => {
+          setUploaded(true);
           setData({ ...data, thumbnail: res.data?.public_id });
           toast.success("Thumbnail Uploaded Successfully");
         })
@@ -152,13 +153,15 @@ export const NewBlog = () => {
             <Tooltip title="Blog Thumbnail" followCursor placement="top">
               <img src={URL.createObjectURL(uploadFile)} />
             </Tooltip>
-            <button
-              type="button"
-              className="font- font-spec bg-lime-400 py-1 px-5 rounded-md text-indigo-900 hover:bg-lime-600 hover:text-white transition-colors"
-              onClick={uploadThumbnail}
-            >
-              <FileUpload /> Upload Thumbnail
-            </button>
+            {uploaded ? null : (
+              <button
+                type="button"
+                className="font- font-spec bg-lime-400 py-1 px-5 rounded-md text-indigo-900 hover:bg-lime-600 hover:text-white transition-colors"
+                onClick={uploadThumbnail}
+              >
+                <FileUpload /> Upload Thumbnail
+              </button>
+            )}
           </div>
         )}
         <TextField
@@ -183,6 +186,13 @@ export const NewBlog = () => {
             toolbarButtonSize: "large",
             iframe: true,
             hidePoweredByJodit: true,
+            defaultActionOnPaste: "insert_as_html",
+            defaultLineHeight: 0.5,
+            controls: {
+              fontsize: {
+                list: Jodit.atom([10, 12, 14, 16]),
+              },
+            },
           }}
           tabIndex={1}
           onBlur={(newContent) => setData({ ...data, content: newContent })}
