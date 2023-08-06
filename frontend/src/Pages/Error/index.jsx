@@ -8,7 +8,7 @@ export const Error = () => {
     <div className="h-screen relative justify-center items-center">
       <div
         className="flex bg-indigo-100
-       absolute h-full w-full flex-col justify-center items-center"
+       absolute h-full w-full flex-col px-2 justify-center items-center"
       >
         <span className="font-noto font-semibold text-xl uppercase">
           Oops ! Page Not Found

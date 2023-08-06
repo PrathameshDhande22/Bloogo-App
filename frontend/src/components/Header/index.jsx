@@ -11,6 +11,7 @@ import { removeLogin, setLogin } from "../../Store/Reducer/LoginSlice";
 import { Profile } from "../Profile";
 import { deleteToken } from "../../utils/storetoken";
 import { VerifyHeader } from "../VerifyHeader";
+import { SearchBar } from "../SearchBar";
 
 const Header = () => {
   const isAuthentic = useSelector((state) => state.login.isLogin);
@@ -47,18 +48,21 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex select-none flex-row justify-between items-center md:m-3 m-2 z-10">
-        <NavLink to={"/"}>
-          <img
-            src="/favicon.ico"
-            alt="bloogo icon"
-            className="hover:w-9 transition-{w} ease-in duration-150"
-          />
-        </NavLink>
-        <nav className="flex flex-row justify-center gap-10 items-center">
+      <header className="flex flex-wrap select-none flex-row justify-between items-center md:m-3 m-2 z-10">
+        <div className="flex flex-row flex-wrap gap-2 justify-center items-center">
+          <NavLink to={"/"}>
+            <img
+              src="/favicon.ico"
+              alt="bloogo icon"
+              className="hover:w-9 transition-{w} ease-in duration-150"
+            />
+          </NavLink>
+          <SearchBar />
+        </div>
+        <nav className="flex flex-row justify-center gap-5 items-center">
           <div
             className={
-              "font-meri text-base hidden md:visible items-start justify-start md:flex flex-row gap-10"
+              "font-meri text-base hidden md:visible items-start justify-start md:flex flex-row gap-7"
             }
           >
             <NavLink to={"/"} onClick={handleclick}>
@@ -142,7 +146,7 @@ const Header = () => {
               onClick={() => {
                 setnavOpen((prev) => !prev);
               }}
-              className="font-meri py-2 px-2 rounded-md  md:hidden"
+              className="font-meri pe-2 md:hidden"
             >
               {isnavOpen ? (
                 <GrClose fontSize={30} className="rotate-90-ccw" />
@@ -157,7 +161,7 @@ const Header = () => {
         </nav>
       </header>
       <header
-        className={`font-meri text-base justify-center md:hidden items-center flex flex-col space-y-3 bg-indigo-100 py-4 animate__animated z-0 ${
+        className={`font-meri text-base justify-center md:hidden items-center flex flex-wrap flex-col space-y-3 bg-indigo-100 py-4 animate__animated z-0 ${
           isnavOpen ? "visible  animate__fadeIn animate__slow" : "hidden"
         }`}
       >

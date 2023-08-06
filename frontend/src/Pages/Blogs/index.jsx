@@ -7,7 +7,6 @@ import { BlogCards } from "../../components/BlogCards";
 import { Pagination } from "@mui/material";
 import { useTitle } from "../../Hooks/useTitle";
 
-// TODO : Implement Blog Side Bar
 export const Blogs = () => {
   useTitle("Blogs");
   const [blogs, setBlogs] = useState([]);

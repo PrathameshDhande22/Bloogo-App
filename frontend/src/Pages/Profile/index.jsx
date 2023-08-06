@@ -133,7 +133,7 @@ export const Profile = () => {
           </div>
 
           <div className="flex flex-col justify-center flex-wrap items-center gap-5">
-            <div className="flex flex-row flex-wrap gap-4 items-center">
+            <div className="flex flex-row flex-wrap gap-4 items-center justify-center">
               <Tooltip
                 title="Update Profile Image"
                 followCursor
@@ -150,7 +150,7 @@ export const Profile = () => {
                   {userdata.profileurl == null ? (
                     <img src={userImage} alt="User Image" className="w-40"/>
                   ) : (
-                    <Avatar src={imgsrc} sx={{ height: 200, width: 200 }} />
+                    <Avatar src={imgsrc} sx={{ height: 150, width: 150 }} />
                   )}
                   <div
                     className={`w-full h-full rounded-full opacity-60 absolute top-0 z-40  bg-black ${

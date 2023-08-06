@@ -15,6 +15,8 @@ import { NewBlog } from "./NewBlog";
 import { Dashboard } from "./Dashboard";
 import { PublicProfile } from "./PublicProfile";
 import { Edit } from "./Edit";
+import { SearchHome } from "./SearchHome";
+import { SearchPage } from "./SearchPage";
 
 export {
   Home,
@@ -34,4 +36,6 @@ export {
   Dashboard,
   PublicProfile,
   Edit,
+  SearchHome,
+  SearchPage,
 };

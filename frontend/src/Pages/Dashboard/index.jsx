@@ -63,7 +63,7 @@ export const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <div className="mx-3 my-10 md:mx-20">
+        <div className="mx-3 my-10 md:mx-20 space-y-3">
           <div className="text-2xl md:text-4xl font-gara font-bold self-start">
             Dashboard
           </div>

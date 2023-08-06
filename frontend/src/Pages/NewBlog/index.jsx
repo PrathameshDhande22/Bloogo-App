@@ -190,7 +190,7 @@ export const NewBlog = () => {
             defaultLineHeight: 0.5,
             controls: {
               fontsize: {
-                list: Jodit.atom([10, 12, 14, 16]),
+                list: Jodit.atom([14, 16, 18, 20]),
               },
             },
           }}

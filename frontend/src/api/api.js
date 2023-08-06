@@ -232,3 +232,17 @@ export const deleteBlog = (id, token) => {
   });
 };
 
+/**
+ * Updates the Blog
+ * @param {String} id
+ * @param {String} token
+ * @param {FormData} data
+ * @returns Axios Promise
+ */
+export const updateBlog = (id, token, data) => {
+  return apicall.put(`/api/blog/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

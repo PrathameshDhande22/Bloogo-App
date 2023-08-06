@@ -17,6 +17,8 @@ import {
   Dashboard,
   PublicProfile,
   Edit,
+  SearchHome,
+  SearchPage,
 } from "../Pages";
 import { SpinPage } from "../utils/SpinPage";
 import { useSelector } from "react-redux";
@@ -61,6 +63,9 @@ const Content = () => {
       <Route path="/blog/:blogid" element={<Blog />} />
       <Route path="/author/:authorid" element={<PublicProfile />} />
       <Route path="/verify/:token" element={uData ? <Error /> : <Verify />} />
+      <Route path="/search" element={<SearchHome />}>
+        <Route path="blog" element={<SearchPage />} />
+      </Route>
       <Route element={<AuthProvider />}>
         <Route path="/profile" element={<Profile />} />
         <Route path="/change" element={<ChangePassword />} />

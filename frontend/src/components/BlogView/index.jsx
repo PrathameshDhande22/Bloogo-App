@@ -45,7 +45,7 @@ export const BlogView = ({ blogdata }) => {
           {blogdata?.title}
         </div>
         <div className="self-start font-mono italic">
-          {readingTime(String(blogdata?.content), 60).text}
+          {readingTime(String(blogdata?.content), 50).text}
         </div>
         <div className="self-start flex flex-col gap-1 ">
           <Link

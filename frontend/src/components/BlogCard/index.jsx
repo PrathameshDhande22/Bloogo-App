@@ -2,13 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Prop from "prop-types";
 import parse from "html-react-parser";
 import dayjs from "dayjs";
-import { getThumbnailURL } from "../../utils/imageurl";
+import { getResizedThumbnailURL } from "../../utils/imageurl";
 import { useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Tooltip } from "@mui/material";
 import { DialogComponent } from "../DialogComponent";
 import { deleteBlog } from "../../api/api";
 import { useToken } from "../../Hooks/useToken";
+import { readingTime } from "reading-time-estimator";
 
 export const BlogCard = ({
   name,
@@ -25,7 +26,7 @@ export const BlogCard = ({
 
   useEffect(() => {
     if (thumbnail !== "null") {
-      setImgsrc(getThumbnailURL(thumbnail));
+      setImgsrc(getResizedThumbnailURL(thumbnail));
     }
   }, [thumbnail]);
 
@@ -74,17 +75,22 @@ export const BlogCard = ({
                 </div>
               </div>
               {imgsrc !== null ? (
-                <div className="w-56 md:w-1/2 h-2/5">
+                <div className="">
                   <img src={imgsrc} alt="" />
                 </div>
               ) : null}
             </div>
           </Link>
-          <span className="px-3 inline-block py-1 bg-neutral-100 rounded-2xl border-2 border-gray-400 font-meri text-xs">
-            <Link to={`/tags/${tag}`}>
-              <span>{tag}</span>
-            </Link>
-          </span>
+          <div className="space-x-3">
+            <span className="px-3 inline-block py-1 bg-neutral-100 rounded-2xl border-2 border-gray-400 font-meri text-xs">
+              <Link to={`/tags/${tag}`}>
+                <span>{tag}</span>
+              </Link>
+            </span>
+            <span className="font-spec text-sm">
+              {readingTime(String(content), 50).text}
+            </span>
+          </div>
         </div>
         {showbuttons ? (
           <div className="w-full pt-2 flex flex-row justify-between gap-5">
