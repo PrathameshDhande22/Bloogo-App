@@ -14,6 +14,9 @@ A Blog App for all Coders, Programmers, and other.
 
 A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
+# Bloogo is Now on Final Stage of Development ! 
+# Stay Tuned For Exploring....
+
 **Under Development**
 
 ![under](https://media.giphy.com/media/EIiJp9cQ3GeEU/giphy.gif)
@@ -145,14 +148,16 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Fixed Some Issue related to Profile Picture in Profile Component
   - Added the Share button to share the blog with various Social Media.
   - Fixed Upload Button Issue in Upload Thumbnail in Create New Blog Page.
-  - 
+  
+- **Day 19 - 6 August 2023** 
+  - Added Estimated Reading Time for each Blogcard
+  - Implemented Edit Page will full Performance Support
+  - Reduced the Words per minute for Estimate Reading Time
 
-## Future Work :
+## Future Work/Updates :
 
 1. Google Login
 2. Dark Mode Feature
-3. Automate Blog Thumbnail
-4. Share On Socials
 
 ## Guide :
 
@@ -190,6 +195,7 @@ pip install -r requirements.txt
 ```
 
 6. Create `.env` file
+  Create Your Account on [Brevo.com](https://www.brevo.com/) and Add SMTP API in Env file.
 
 ```
 MONGODB_URI=Your Mongodb URI
