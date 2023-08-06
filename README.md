@@ -14,7 +14,8 @@ A Blog App for all Coders, Programmers, and other.
 
 A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
-# Bloogo is Now on Final Stage of Development ! 
+# Bloogo is Now on Final Stage of Development !
+
 # Stay Tuned For Exploring....
 
 **Under Development**
@@ -135,12 +136,14 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Implemented API call for Write Blog Page.
 
 - **Day 17 - 4 August 2023**
+
   - Optimized the Code for Frequently appearing Dialog Boxes.
   - Fixed the Blog Thumbnail Not uploading.
   - Reading Time Estimator and Uploaded the blogs in min,hours,day ago in Blog View Page.
   - Fixed Jodit Editor for Various Toolbar.
 
 - **Day 18 - 5 August 2023**
+
   - Fixed some bugs in Backend related to Date in blog.
   - Implemented Dashboard page for login User.
   - Delete and Edit button Added for each blog for the user who has created the blog.
@@ -148,11 +151,14 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Fixed Some Issue related to Profile Picture in Profile Component
   - Added the Share button to share the blog with various Social Media.
   - Fixed Upload Button Issue in Upload Thumbnail in Create New Blog Page.
-  
-- **Day 19 - 6 August 2023** 
+
+- **Day 19 - 6 August 2023**
+
   - Added Estimated Reading Time for each Blogcard
   - Implemented Edit Page will full Performance Support
   - Reduced the Words per minute for Estimate Reading Time
+  - Added SearchBar in the Header and Implemented Search Home Page.
+  - Implemented Recent Searches in the Search Home Page
 
 ## Future Work/Updates :
 
@@ -195,7 +201,7 @@ pip install -r requirements.txt
 ```
 
 6. Create `.env` file
-  Create Your Account on [Brevo.com](https://www.brevo.com/) and Add SMTP API in Env file.
+   Create Your Account on [Brevo.com](https://www.brevo.com/) and Add SMTP API in Env file.
 
 ```
 MONGODB_URI=Your Mongodb URI
