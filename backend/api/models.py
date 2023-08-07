@@ -81,6 +81,15 @@ class ProfileModel(BaseModel):
     )
 
 
+class AuthorModel(ProfileModel):
+    id: str = Field(description="ID of an Author", examples=["dhffkdhjse"])
+
+
+class AuthorList(BaseModel):
+    total: int = Field(description="Total Author List", examples=[3])
+    authors: list[AuthorModel]
+
+
 class AuthorProfile(BaseModel):
     profile: ProfileModel
     blogs: BlogData

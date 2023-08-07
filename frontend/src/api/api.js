@@ -246,3 +246,13 @@ export const updateBlog = (id, token, data) => {
     },
   });
 };
+
+/**
+ * List of all blogs which are searched.
+ * @param {String} query
+ * @param {String} sort
+ * @returns Axios Promise
+ */
+export const searchBlogs = (query) => {
+  return apicall.get(`/api/blogs?q=${query}&sort=newest`);
+};

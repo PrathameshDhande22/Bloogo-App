@@ -1,11 +1,12 @@
 import datetime
 import json
+import re
 from typing import Annotated
 from fastapi import APIRouter, Depends, Path, Query, HTTPException, status, Form
 from pydantic import EmailStr
 from ..database import Blog, User
 from ..auth import verify_token
-from ..models import AuthorProfile, General, ProfileModel, UserModel
+from ..models import AuthorList, AuthorProfile, General, ProfileModel, UserModel
 from ..utils import checkNone, hashed_password, verify_password
 from mongoengine.errors import ValidationError
 
@@ -131,6 +132,7 @@ def changePassword(
     response_model=AuthorProfile,
     summary="User Profile with Blogs",
     description="Retreving the user related blogs and user data.",
+    response_description="Details of User with User created Blog.",
 )
 def getAuthorProfile(
     id: Annotated[
@@ -165,3 +167,29 @@ def getAuthorProfile(
         return {"profile": data, "blogs": {"Total_Blogs": len(author_blogs), "blogs": author_blogs}}
     except ValidationError as v:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Profile Not Found")
+
+
+@profile.get(
+    "/search",
+    response_model=AuthorList,
+    description="Searches the Author according to his firstname or lastname",
+    summary="Search Authors",
+    response_description="List of Authors",
+)
+def searchProfiles(
+    q: Annotated[str, Query(description="Author Name to Search", example="prathamesh")]
+):
+    regex_pattern = re.compile(f"{q}", re.IGNORECASE)
+    profiles = list(json.loads(User.objects(firstname=regex_pattern).to_json()))
+    profiles2 = json.loads(User.objects(lastname=regex_pattern).to_json())
+    profiles.extend(profiles2)
+    for blogi in profiles:
+        blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
+        blogi["id"] = blogi["_id"]["$oid"]
+        try:
+            blogi["dob"] = datetime.datetime.utcfromtimestamp(
+                blogi["dob"]["$date"] / 1000
+            ).strftime("%Y-%m-%d")
+        except KeyError as e:
+            pass
+    return {"total": len(profiles), "authors": profiles}

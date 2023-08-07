@@ -1,5 +1,7 @@
+import json
+import re
 from typing import Annotated
-from fastapi import APIRouter, Path, Depends, HTTPException, status
+from fastapi import APIRouter, Path, Depends, HTTPException, Query, status
 from ..auth import verify_token
 from ..database import Tags
 from ..models import General, TagsList
@@ -35,3 +37,16 @@ def addTag(
 def viewTag():
     tags_data = list(Tags.objects().exclude("id").scalar("name"))
     return {"tags": tags_data, "total_tags": len(tags_data)}
+
+
+@tag.get(
+    "/tag/search",
+    response_model=TagsList,
+    summary="Search Tags",
+    description="Searching Tags according to Query",
+    response_description="List of Tags.",
+)
+def searchTags(q: Annotated[str, Query(description="Searching the Tags", example="python")]):
+    pattern = re.compile(f"{q}", re.IGNORECASE)
+    tag_list = list(Tags.objects(name=pattern).exclude("id").scalar("name"))
+    return {"total_tags": len(tag_list), "tags": tag_list}

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Recents } from "../../components/Recents";
 import { addHistory } from "../../utils/history";
+import { useTitle } from "../../Hooks/useTitle";
+import { SearchPage } from "../SearchPage";
 
 export const SearchHome = () => {
+  useTitle("Search");
   const [searchValue, setSearchValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -26,7 +29,7 @@ export const SearchHome = () => {
       <div className="visible sm:hidden w-full">
         <div
           onKeyDown={onKeyDown}
-          className="rounded-full  py-1 px-2 font-serif bg-gray-100 flex-row items-center gap-2 flex"
+          className="rounded-full py-1 px-3 font-serif bg-gray-100 border-2 border-gray-500 flex-row items-center gap-2 flex"
         >
           <button onClick={handleSearching} type="submit" id="searchbutton">
             <BiSearch fontSize={23} />
@@ -44,7 +47,7 @@ export const SearchHome = () => {
       {searchParams.get("q") === null || searchParams.get("q").length === 0 ? (
         <Recents />
       ) : (
-        <Outlet />
+        <SearchPage searchParams={searchParams} />
       )}
     </div>
   );

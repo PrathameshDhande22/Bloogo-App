@@ -24,15 +24,15 @@ export const RecentItems = () => {
   return (
     <>
       {query.length == 0 || query === 0 ? (
-        <div className="font-ysb text-lg sm:text-xl">
+        <div className="font-ysb text-lg sm:text-xl h-[80vh]">
           There are no Recent Searches
         </div>
       ) : (
-        <div className="sm:w-[40%] w-full border-2 border-gray-200">
+        <div className="sm:w-[40%] font-gara sm:text-xl text-base w-full border-2 border-gray-200">
           {query.map((value, index) => {
             return (
               <div key={index}>
-                <div className="flex flex-row justify-between items-center w-full p-1 gap-1">
+                <div className="flex flex-row border-b-2 border-gray-100 justify-between items-center w-full p-1 gap-1">
                   <button
                     onClick={() => {
                       navi({ pathname: "/search/blog", search: `q=${value}` });

@@ -17,6 +17,9 @@ import { PublicProfile } from "./PublicProfile";
 import { Edit } from "./Edit";
 import { SearchHome } from "./SearchHome";
 import { SearchPage } from "./SearchPage";
+import { SearchAuthor } from "./SearchAuthor";
+import { SearchBlog } from "./SearchBlog";
+import { SearchTag } from "./SearchTag";
 
 export {
   Home,
@@ -38,4 +41,7 @@ export {
   Edit,
   SearchHome,
   SearchPage,
+  SearchAuthor,
+  SearchBlog,
+  SearchTag,
 };
