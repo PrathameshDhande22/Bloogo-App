@@ -44,6 +44,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 18. [Error Page Reference](https://colorlib.com/etc/404/colorlib-error-404-3/) From the above website the error page design has been made.
 19. [moment.js](https://momentjs.com/) JS library for date utility for giving from how many hours or minutes have been over by uploading this blog.
 20. [animista.net](https://animista.net/) For providing the CSS Animations for the Hamburger menu component.
+21. [medium.com](https://medium.com) Search Page Reference has been taken from Medium.com Website.
 
 ## Timeline
 
@@ -159,6 +160,12 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Reduced the Words per minute for Estimate Reading Time
   - Added SearchBar in the Header and Implemented Search Home Page.
   - Implemented Recent Searches in the Search Home Page
+
+- **Day 20 - 7 August 2023**
+  - Implemented Search Page for Blog.
+  - Modification in Search page.
+  - Modification in Dashboard Page.
+  - Created the Place Holder for Blog Page.
 
 ## Future Work/Updates :
 
