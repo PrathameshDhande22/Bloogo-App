@@ -14,15 +14,15 @@ A Blog App for all Coders, Programmers, and other.
 
 A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
-# Bloogo is Now on Final Stage of Development !
+# Bloogo is Now on Final Stage of Development
 
-# Stay Tuned For Exploring....
+# Stay Tuned For Exploring
 
 **Under Development**
 
 ![under](https://media.giphy.com/media/EIiJp9cQ3GeEU/giphy.gif)
 
-## Used Technologies and Products :
+## Used Technologies and Products
 
 1. [Brevo](https://developers.brevo.com/) SMTP Mail Sender for verification of Email implemented in API.
 2. [logo.com](https://app.logo.com/) for Creating the Bloogo logo.
@@ -167,16 +167,22 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Modification in Dashboard Page.
   - Created the Place Holder for Blog Page.
 
-## Future Work/Updates :
+- **Day 21 - 8 August 2023**
+  - Implemented Blog Author Search Page.
+  - Implemented Profile cards to shown in Author Search Page.
+  - Simple Modification in Search Page.
+  - Updated Placeholder for Author Page.
+
+## Future Work/Updates
 
 1. Google Login
 2. Dark Mode Feature
 
-## Guide :
+## Guide
 
 **Guide For running the project locally in your system.**
 
-##### Running the Backend :
+##### Running the Backend
 
 1. Clone the Repository
 
