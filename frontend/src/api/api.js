@@ -256,3 +256,12 @@ export const updateBlog = (id, token, data) => {
 export const searchBlogs = (query) => {
   return apicall.get(`/api/blogs?q=${query}&sort=newest`);
 };
+
+/**
+ * Searching the authors according to query.
+ * @param {String} query
+ * @returns Axios Promise
+ */
+export const searchAuthors = (query) => {
+  return apicall.get(`/api/user/search?q=${query}`);
+};

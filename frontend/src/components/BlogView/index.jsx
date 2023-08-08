@@ -37,7 +37,7 @@ export const BlogView = ({ blogdata }) => {
     <div className="flex my-5 flex-row w-full justify-center items-center">
       <div className="flex mx-4 flex-col justify-center gap-5 w-full items-center sm:w-[60%]">
         {imgsrc !== null ? (
-          <div className="w-2/4">
+          <div className="md:w-3/4">
             <img src={imgsrc} alt="Thumbnail" />
           </div>
         ) : null}

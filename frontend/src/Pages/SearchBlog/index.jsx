@@ -12,7 +12,7 @@ export const SearchBlog = () => {
   const [blogContent, setBlogContent] = useState([]);
   const [searchParams] = useSearchParams();
   const [isLoadMore, setLoadMore] = useState(false);
-  const [clicks, setClicks] = useState(2);
+  const [clicks, setClicks] = useState(4);
 
   useEffect(() => {
     const query = searchParams.get("q");
@@ -48,7 +48,7 @@ export const SearchBlog = () => {
       ) : (
         <div className="flex flex-col gap-4 items-center justify-center">
           <div className="font-rem md:w-9/12 w-full">
-            Total Blogs : {blogData?.Total_Blogs}
+            Total Blogs Found : {blogData?.Total_Blogs}
           </div>
           {blogData?.Total_Blogs === 0 ? (
             <div className="font-meri font-bold ">NO BLOG FOUND</div>
