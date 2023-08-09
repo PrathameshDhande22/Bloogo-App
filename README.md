@@ -173,6 +173,13 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Simple Modification in Search Page.
   - Updated Placeholder for Author Page.
 
+- **Day 22 - 9 August 2023**
+  - Improved Searching for Profiles in backend.
+  - Implemented Search Tag page.
+  - Implemented Tag Page.
+  - Implemented Full Frontend Now Ready to Host.
+  - Future Work or updates will be worked after availability of app.
+
 ## Future Work/Updates
 
 1. Google Login
