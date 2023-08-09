@@ -1,6 +1,5 @@
 import datetime
 import json
-import re
 from typing import Annotated
 from fastapi import APIRouter, Depends, Path, Query, HTTPException, status, Form
 from pydantic import EmailStr
@@ -9,6 +8,7 @@ from ..auth import verify_token
 from ..models import AuthorList, AuthorProfile, General, ProfileModel, UserModel
 from ..utils import checkNone, hashed_password, verify_password
 from mongoengine.errors import ValidationError
+from mongoengine.queryset.visitor import Q
 
 profile = APIRouter(prefix="/api/user", tags=["User Profile"])
 
@@ -171,7 +171,7 @@ def getAuthorProfile(
 
 @profile.get(
     "/search",
-    response_model=AuthorList,
+    # response_model=AuthorList,
     description="Searches the Author according to his firstname or lastname",
     summary="Search Authors",
     response_description="List of Authors",
@@ -179,11 +179,9 @@ def getAuthorProfile(
 def searchProfiles(
     q: Annotated[str, Query(description="Author Name to Search", example="prathamesh")]
 ):
-    regex_pattern = re.compile(f"{q}", re.IGNORECASE)
-    profiles = list(json.loads(User.objects(firstname=regex_pattern).to_json()))
-    profiles2 = json.loads(User.objects(lastname=regex_pattern).to_json())
-    profiles.extend(profiles2)
-    for blogi in profiles:
+    query = Q(firstname__iregex=q) | Q(lastname__iregex=q)
+    authors = json.loads(User.objects.filter(query).to_json())
+    for blogi in authors:
         blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
         blogi["id"] = blogi["_id"]["$oid"]
         try:
@@ -192,4 +190,4 @@ def searchProfiles(
             ).strftime("%Y-%m-%d")
         except KeyError as e:
             pass
-    return {"total": len(profiles), "authors": profiles}
+    return {"total": len(authors), "authors": authors}
