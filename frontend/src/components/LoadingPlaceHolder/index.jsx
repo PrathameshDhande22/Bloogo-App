@@ -37,14 +37,32 @@ export const LoadingPlaceHolder = ({ times, showFor }) => {
         );
       }
       break;
+    case "tags":
+      for (let i = 0; i < times; i++) {
+        elements.push(
+          <div key={i} className="">
+            <PlaceholderLoading shape="rect" width={100} height={20} />
+          </div>
+        );
+      }
   }
 
   return (
-    <div className="flex flex-col flex-wrap gap-3">
-      {elements.map((value) => {
-        return value;
-      })}
-    </div>
+    <>
+      {showFor === "tags" ? (
+        <div className="flex flex-row gap-7 flex-wrap">
+          {elements.map((val) => {
+            return val;
+          })}
+        </div>
+      ) : (
+        <div className="flex flex-col flex-wrap gap-3">
+          {elements.map((value) => {
+            return value;
+          })}
+        </div>
+      )}
+    </>
   );
 };
 

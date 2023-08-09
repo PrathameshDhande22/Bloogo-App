@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { searchBlogs } from "../../api/api";
 import { BlogCards } from "../../components/BlogCards";
 import LoadMoreButton from "../../components/LoadMoreButton";
+import { ServiceError } from "../../components/ServiceError";
 
 export const SearchBlog = () => {
   const [isLoading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ export const SearchBlog = () => {
   const [searchParams] = useSearchParams();
   const [isLoadMore, setLoadMore] = useState(false);
   const [clicks, setClicks] = useState(4);
+  const [isError, setError] = useState(false);
 
   useEffect(() => {
     const query = searchParams.get("q");
@@ -26,6 +28,7 @@ export const SearchBlog = () => {
         setLoading(false);
       })
       .catch(() => {
+        setError(true);
         setLoading(false);
       });
   }, [searchParams]);
@@ -40,11 +43,13 @@ export const SearchBlog = () => {
   }, [blogData, clicks]);
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <>
           <LoadingPlaceHolder times={4} showFor={"blogs"} />
         </>
+      ) : isError ? (
+        <ServiceError error={isError} />
       ) : (
         <div className="flex flex-col gap-4 items-center justify-center">
           <div className="font-rem md:w-9/12 w-full">
@@ -65,6 +70,6 @@ export const SearchBlog = () => {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };

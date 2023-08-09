@@ -265,3 +265,21 @@ export const searchBlogs = (query) => {
 export const searchAuthors = (query) => {
   return apicall.get(`/api/user/search?q=${query}`);
 };
+
+/**
+ * Searching Tags according to Query.
+ * @param {String} query
+ * @returns Axios Promise
+ */
+export const searchTags = (query) => {
+  return apicall.get(`/api/tag/search?q=${query}`);
+};
+
+/**
+ * Searchs Blog according to tag.
+ * @param {String} tag
+ * @returns Axios Promise
+ */
+export const searchByTag = (tag) => {
+  return apicall.get(`/api/blogs?tag=${tag}&sort=newest`);
+};

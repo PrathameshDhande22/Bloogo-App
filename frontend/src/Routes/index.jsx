@@ -21,6 +21,7 @@ import {
   SearchBlog,
   SearchTag,
   SearchAuthor,
+  BlogTag,
 } from "../Pages";
 import { SpinPage } from "../utils/SpinPage";
 import { useSelector } from "react-redux";
@@ -65,6 +66,7 @@ const Content = () => {
       <Route path="/blog/:blogid" element={<Blog />} />
       <Route path="/author/:authorid" element={<PublicProfile />} />
       <Route path="/verify/:token" element={uData ? <Error /> : <Verify />} />
+      <Route path="/tags/:tagname" element={<BlogTag />} />
       <Route path="/search" element={<SearchHome />}>
         <Route path="blog" element={<SearchBlog />} />
         <Route path="tag" element={<SearchTag />} />

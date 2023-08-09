@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { ProfileCards } from "../../components/ProfileCards";
 import { useCallback } from "react";
 import LoadMoreButton from "../../components/LoadMoreButton";
+import { ServiceError } from "../../components/ServiceError";
 
 export const SearchAuthor = () => {
   const [isLoading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ export const SearchAuthor = () => {
   const [authorData, setAuthorData] = useState({});
   const [authorsProfile, setAuthorsProfile] = useState([]);
   const [searchParams] = useSearchParams();
+  const [isError, setError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -25,6 +27,7 @@ export const SearchAuthor = () => {
         }
       })
       .catch(() => {
+        setError(true);
         setLoading(false);
       });
   }, [searchParams]);
@@ -39,11 +42,13 @@ export const SearchAuthor = () => {
   }, [clicks, authorData]);
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <>
           <LoadingPlaceHolder times={4} showFor={"authors"} />
         </>
+      ) : isError ? (
+        <ServiceError error={isError} />
       ) : (
         <div className="flex flex-col gap-4 items-center justify-center">
           <div className="font-rem md:w-9/12 w-full">
@@ -61,6 +66,6 @@ export const SearchAuthor = () => {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };

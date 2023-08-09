@@ -16,10 +16,10 @@ import { Dashboard } from "./Dashboard";
 import { PublicProfile } from "./PublicProfile";
 import { Edit } from "./Edit";
 import { SearchHome } from "./SearchHome";
-import { SearchPage } from "./SearchPage";
 import { SearchAuthor } from "./SearchAuthor";
 import { SearchBlog } from "./SearchBlog";
 import { SearchTag } from "./SearchTag";
+import { BlogTag } from "./BlogTag";
 
 export {
   Home,
@@ -40,8 +40,8 @@ export {
   PublicProfile,
   Edit,
   SearchHome,
-  SearchPage,
   SearchAuthor,
   SearchBlog,
   SearchTag,
+  BlogTag,
 };
