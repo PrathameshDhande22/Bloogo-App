@@ -45,7 +45,7 @@ export const SearchAuthor = () => {
     <>
       {isLoading ? (
         <>
-          <LoadingPlaceHolder times={4} showFor={"authors"} />
+          <LoadingPlaceHolder times={4} showFor={"author"} />
         </>
       ) : isError ? (
         <ServiceError error={isError} />
