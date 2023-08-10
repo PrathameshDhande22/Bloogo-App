@@ -17,7 +17,7 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
 ## Deployed Links
 [Bloogo APP](https://bloogo.vercel.app)
 
-[Bloogo API](https://bloogo-api.onrender.com)
+[Bloogo API](https://bloogoapi.onrender.com)
 
 ## Used Technologies and Products
 
