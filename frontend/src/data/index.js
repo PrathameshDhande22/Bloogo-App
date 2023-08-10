@@ -13,7 +13,7 @@ const HeaderData = [
     content1:
       "Bloogo is a pared-down blogging platform — a distraction-free place for you to write, and a clean space for your audience to read.",
     content2:
-      "Instead of content management, we focus on writing. You'll see our editor screen first, every time you open the app. You can write in Markdown or switch to our friendly Rich Text editor. Your work is automatically saved to your browser as you write.",
+      "Instead of content management, we focus on writing. You'll see our editor screen first, every time you open the app. You can write in Html or switch to our friendly Rich Text editor. Your work is automatically saved to your browser as you write.",
     image:
       "https://ucarecdn.com/65663f87-c0eb-4cb8-92f5-50e6374a9031/-/preview/700x700/-/quality/smart/-/format/auto/img2.png",
   },
