@@ -8,7 +8,7 @@ from .models import General
 description = """
 <b>Bloogo API which is the REST api and serves for the particular application to view </b>
 
-<a href="link">Click here</a>
+<a href="https://bloogo.vercel.app">Click here</a>
 
 API is the backend for the app.
 
@@ -41,7 +41,7 @@ def create_app() -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:5173", "http://localhost", os.getenv("APP_URL")],
+        allow_origins=[os.getenv("APP_URL"), os.getenv("SUBDOMAIN_URL")],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
