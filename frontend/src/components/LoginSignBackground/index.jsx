@@ -1,4 +1,3 @@
-import background from "../../assets/background.jpg";
 import Prop from "prop-types";
 
 export const LoginSignBackground = ({ children }) => {
@@ -6,7 +5,7 @@ export const LoginSignBackground = ({ children }) => {
     <div className="relative">
       <div className="absolute top-0 z-0">
         <img
-          src={background}
+          src="https://ucarecdn.com/94ec0f70-f916-4384-baae-6fab1bc9db8e/-/preview/1444x1080/-/quality/smart/-/format/auto/background.jpg"
           alt="Bloogo Background Image"
           className="w-screen h-screen object-cover"
         />

@@ -12,15 +12,12 @@
 
 A Blog App for all Coders, Programmers, and other.
 
-A Bloogo will be made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
+A Bloogo app made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
-# Bloogo is Now on Final Stage of Development
+## Deployed Links
+[Bloogo APP](https://bloogo.vercel.app)
 
-# Stay Tuned For Exploring
-
-**Under Development**
-
-![under](https://media.giphy.com/media/EIiJp9cQ3GeEU/giphy.gif)
+[Bloogo API](https://bloogo-api.onrender.com)
 
 ## Used Technologies and Products
 
@@ -44,7 +41,7 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
 18. [Error Page Reference](https://colorlib.com/etc/404/colorlib-error-404-3/) From the above website the error page design has been made.
 19. [moment.js](https://momentjs.com/) JS library for date utility for giving from how many hours or minutes have been over by uploading this blog.
 20. [animista.net](https://animista.net/) For providing the CSS Animations for the Hamburger menu component.
-21. [medium.com](https://medium.com) Search Page Reference has been taken from Medium.com Website.
+21. [medium.com](https://medium.com) Search Page & Blog according to Tag Reference has been taken from Medium.com Website.
 
 ## Timeline
 
@@ -162,23 +159,32 @@ A Bloogo will be made using react js as frontend and FastAPI as backend, and Sto
   - Implemented Recent Searches in the Search Home Page
 
 - **Day 20 - 7 August 2023**
+
   - Implemented Search Page for Blog.
   - Modification in Search page.
   - Modification in Dashboard Page.
   - Created the Place Holder for Blog Page.
 
 - **Day 21 - 8 August 2023**
+
   - Implemented Blog Author Search Page.
   - Implemented Profile cards to shown in Author Search Page.
   - Simple Modification in Search Page.
   - Updated Placeholder for Author Page.
 
 - **Day 22 - 9 August 2023**
+
   - Improved Searching for Profiles in backend.
   - Implemented Search Tag page.
   - Implemented Tag Page.
   - Implemented Full Frontend Now Ready to Host.
   - Future Work or updates will be worked after availability of app.
+
+- **Day 23 - 10 August 2023**
+  
+  - Implemented Full Page and optimized some images.
+  - Blog View has been modified.
+  - Deployed the Project.
 
 ## Future Work/Updates
 

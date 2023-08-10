@@ -187,7 +187,7 @@ export const NewBlog = () => {
             iframe: true,
             hidePoweredByJodit: true,
             defaultActionOnPaste: "insert_as_html",
-            defaultLineHeight: 0.5,
+            defaultLineHeight: 1.3,
             controls: {
               fontsize: {
                 list: Jodit.atom([14, 16, 18, 20]),

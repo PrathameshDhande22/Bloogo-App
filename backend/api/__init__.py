@@ -41,7 +41,7 @@ def create_app() -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["https://bloogo.vercel.app", "https://vercel.app"],
+        allow_origins=["https://bloogo.vercel.app", "https://vercel.app","http://localhost","http://localhost:5173"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

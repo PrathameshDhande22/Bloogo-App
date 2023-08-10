@@ -63,7 +63,7 @@ export const BlogView = ({ blogdata }) => {
         </div>
         <div className="self-start">
           <span className="px-3 inline-block py-1 bg-neutral-100 rounded-2xl border-2 border-gray-400 font-meri text-xs">
-            <Link to={`/blog/tags/${blogdata?.tag}`}>
+            <Link to={`/tags/${blogdata?.tag}`}>
               <span>{blogdata?.tag}</span>
             </Link>
           </span>

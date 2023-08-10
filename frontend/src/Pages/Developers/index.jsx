@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import profile from "../../assets/developer.png";
 import { GitHub } from "@mui/icons-material";
 import "animate.css";
 import { useTitle } from "../../Hooks/useTitle";
@@ -20,7 +19,7 @@ export const Developers = () => {
           </span>
           <span className="z-50 relative w-56 md:w-72 lg:w-96 slide-in-bck-center animate__animated animate__slideInLeft animate__slow overflow-hidden">
             <img
-              src={profile}
+              src="https://ucarecdn.com/698b231f-8316-4eae-8c41-0d420cad29cc/-/preview/600x600/-/quality/smart/-/format/auto/profile-pic.png"
               alt="Developer Profile"
               className="z-10 border-2 border-black rounded-xl cursor-pointer object-contain hover:scale-110 transition-{scale} ease-in-out duration-200"
               onClick={checkoutPage}
