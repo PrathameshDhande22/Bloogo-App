@@ -15,6 +15,7 @@ A Blog App for all Coders, Programmers, and other.
 A Bloogo app made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
 ## Deployed Links
+
 [Bloogo APP](https://bloogo.vercel.app)
 
 [Bloogo API](https://bloogoapi.onrender.com)
@@ -181,9 +182,10 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
   - Future Work or updates will be worked after availability of app.
 
 - **Day 23 - 10 August 2023**
-  
+
   - Implemented Full Page and optimized some images.
   - Blog View has been modified.
+  - Project Completed.
   - Deployed the Project.
 
 ## Future Work/Updates
@@ -195,7 +197,7 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
 
 **Guide For running the project locally in your system.**
 
-##### Running the Backend
+#### Running the Backend
 
 1. Clone the Repository
 
@@ -204,6 +206,13 @@ git clone https://github.com/PrathameshDhande22/Bloogo-App.git
 ```
 
 2. Make Sure You have `python` installed in your system with `version => 3.10.3`
+
+Goto backend Folder.
+
+```
+cd backend
+```
+
 3. Create Virtual Environment
 
 ```
@@ -242,5 +251,39 @@ python  run.py
 ```
 
 😃😃 Backend is Running Successfully in your System.
+
+#### Running the Frontend
+
+1. Navigate to Frontend Folder.
+
+```
+cd frontend
+```
+
+2. Create .env File in it which contains various Values.
+
+```
+VITE_BASE_API=backend running url
+VITE_CLOUD_NAME=cloudinary cloud name
+VITE_API_KEY=Cloudinary api key
+VITE_API_SECRET=Cloudinary api secret
+VITE_UPLOAD_PRESET=Cloudinary Upload preset
+```
+
+3. Install the dependencies.
+
+```
+npm install
+```
+
+4. Run the project.
+
+```
+npm run dev
+```
+
+😃😃 The project setup is complete.
+
+#### In Case you attempted any error you can mail me on  prathameshdhande534@gmail.com 
 
 ## Author : Prathamesh Dhande
