@@ -22,7 +22,7 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
 
 ## Used Technologies and Products
 
-1. [Brevo](https://developers.brevo.com/) SMTP Mail Sender for verification of Email implemented in API.
+1. [SMTPlib](https://docs.python.org/3/library/smtplib.html) for sending the email for account verification purpose.
 2. [logo.com](https://app.logo.com/) for Creating the Bloogo logo.
 3. [write.as](https://write.as/) Reference for creating the blog. Using The above website design.
 4. [Footer Design](https://preview.colorlib.com/theme/bft/bootstrap-footer-17/#) Footer Design has been taken from the above website.
@@ -188,6 +188,20 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
   - Project Completed.
   - Deployed the Project.
 
+  **============= NEW UPDATE LOGS ==============**
+
+- **Day 24 - 06 February 2024**
+
+  - Researching for new Email Sender SMTP.
+  - Researching of New Editor for blog writing.
+
+- **Day 25 - 07 February 2024**
+  - Implemented the Email Sender SMTP with `smtplib` library of python.
+  - Loading component implemented in various Pages to minimize the pressure on backend.
+  - Improved functionality when the blog is deleted the whole page is being reloaded so removed the reloaded code.
+  - Implemented the New Markdown Editor for writing the blogs.
+  - Now the Images or thumbnails can be directly uploaded to Backend Fastapi integrated the cloudinary in the backend.
+
 ## Future Work/Updates
 
 1. Google Login
@@ -213,35 +227,22 @@ Goto backend Folder.
 cd backend
 ```
 
-3. Create Virtual Environment
+3. Simple command it will automatically create the virtual environment and install the packages.
 
 ```
-pip install virtualenv
-
-virtualenv venv
-```
-
-4. Activate Virtal Environment
-
-```
-venv/Scripts/activate
+poetry install
 ```
 
 if any error comes google the error it will Solved.
 
-5. Install dependencies
-
-```
-pip install -r requirements.txt
-```
-
-6. Create `.env` file
-   Create Your Account on [Brevo.com](https://www.brevo.com/) and Add SMTP API in Env file.
+4. Create `.env` file
 
 ```
 MONGODB_URI=Your Mongodb URI
 SECRET=Jwt secret
-SMTP_API=Brevo smtp api key
+EMAIL= Your Email addresss
+PASSWORD= Your email address password
+LINK=http://localhost:5173 of the frontend.
 ```
 
 7. Run
@@ -284,6 +285,6 @@ npm run dev
 
 😃😃 The project setup is complete.
 
-#### In Case you attempted any error you can mail me on  prathameshdhande534@gmail.com 
+#### In Case you attempted any error you can mail me on prathameshdhande534@gmail.com
 
 ## Author : Prathamesh Dhande
