@@ -2,9 +2,22 @@ import datetime
 import json
 import re
 from typing import Annotated
-from fastapi import APIRouter, Depends, Form, HTTPException, Path, Query, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Path,
+    Query,
+    UploadFile,
+    status,
+    BackgroundTasks,
+)
 from mongoengine.errors import ValidationError
 from mongoengine.queryset.visitor import Q
+
+from api.utils import deleteImage, upload_image
 from ..auth import verify_token
 from ..database import Blog, User
 from ..models import BlogData, BlogModel, General, Sort
@@ -16,9 +29,8 @@ def formdata(
     content: Annotated[str, Form(description="Blog Content in HTML")],
     title: Annotated[str, Form(description="Blog Title")],
     tag: Annotated[str, Form(description="Blog Tag")],
-    thumbnail: Annotated[str, Form(description="Blog Thumbnail URL")],
 ):
-    return {"title": title, "tag": tag, "thumbnail": thumbnail, "content": content}
+    return {"title": title, "tag": tag, "content": content}
 
 
 @blog.post(
@@ -28,10 +40,14 @@ def formdata(
     description="Create new Blog and publish it.",
     response_description="Blog Added Successfully",
 )
-def createNewBlog(
+async def createNewBlog(
     formd: Annotated[dict, Depends(formdata)],
     udata: Annotated[tuple, Depends(verify_token)],
+    image: Annotated[UploadFile | str, File(description="Thumbnail To Upload")] = None,
 ):
+    public_id = "null"
+    if image != "null":
+        public_id = await upload_image(image)
     user_data = User.objects(id=udata[2]).first()
     if not user_data.isverified:
         raise HTTPException(
@@ -57,7 +73,7 @@ def createNewBlog(
             title=formd["title"],
             content=formd["content"],
             tag=formd["tag"],
-            thumbnail=formd["thumbnail"],
+            thumbnail=public_id,
             createdby=user_data.email,
             name=full_name,
             authorid=user_data.id,
@@ -97,7 +113,9 @@ def viewAllBlog(
         blogs = Blog.objects(query).to_json()
     blogs = json.loads(blogs)
     for blogi in blogs:
-        blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
+        blogi["createdon"] = datetime.datetime.utcfromtimestamp(
+            blogi["createdon"]["$date"] / 1000
+        )
         blogi["id"] = blogi["_id"]["$oid"]
         blogi["authorid"] = blogi["authorid"]["$oid"]
     return {"Total_Blogs": len(blogs), "blogs": blogs}
@@ -110,7 +128,9 @@ def viewAllBlog(
     description="View the Specific Blog using the blog unique ID.",
     response_description="Blog",
 )
-def getBlogById(id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")]):
+def getBlogById(
+    id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")]
+):
     try:
         blog_data = Blog.objects(id=id).first()
         if blog_data is None:
@@ -133,21 +153,29 @@ def getBlogById(id: Annotated[str, Path(description="Blog Unique ID", example="d
     description="Update the blog",
     response_description="Blog Updated Successfully.",
 )
-def updateBlog(
+async def updateBlog(
+    background: BackgroundTasks,
     blog_data_form: Annotated[dict, Depends(formdata)],
     udata: Annotated[tuple, Depends(verify_token)],
     id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")],
+    image: Annotated[UploadFile | str, File(description="Thumbnail To Upload")] = None,
 ):
     try:
         blog_data = Blog.objects(id=id).first()
         if blog_data is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Blog Doesn't Exists")
         if blog_data.authorid != udata[2]:
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="You cannot edit this blog")
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, detail="You cannot edit this blog"
+            )
+        public_id = blog_data.thumbnail
+        if image != "null":
+            background.add_task(deleteImage, public_id=public_id)
+            public_id = await upload_image(image)
         blog_data.update(
             set__title=blog_data_form["title"],
             set__content=blog_data_form["content"],
-            set__thumbnail=blog_data_form["thumbnail"],
+            set__thumbnail=public_id,
             set__tag=blog_data_form["tag"],
         )
         return {"message": "Blog Updated Successfully"}
@@ -162,7 +190,8 @@ def updateBlog(
     description="Delete a particular Blog. Blog can be deleted by the owner of the blog who has created.",
     response_description="Blog Updated Successfully",
 )
-def deleteblog(
+async def deleteblog(
+    background: BackgroundTasks,
     udata: Annotated[tuple, Depends(verify_token)],
     id: Annotated[str, Path(description="Blog Unique ID", example="deiyrwujdsa")],
 ):
@@ -171,7 +200,12 @@ def deleteblog(
         if blog_data is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Blog Doesn't Exists")
         if blog_data.authorid != udata[2]:
-            raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="You cannot delete this blog")
+            raise HTTPException(
+                status.HTTP_401_UNAUTHORIZED, detail="You cannot delete this blog"
+            )
+        public_id = blog_data.thumbnail
+        if public_id != "null":
+            background.add_task(deleteImage, public_id=public_id)
         blog_data.delete()
         return {"message": "Blog deleted Successfully"}
     except ValidationError as ve:
@@ -189,7 +223,9 @@ def getBlogsUser(udata: Annotated[tuple, Depends(verify_token)]):
     blog_data = Blog.objects(authorid=udata[2]).order_by("-createdon")
     blogs = json.loads(blog_data.to_json())
     for blogi in blogs:
-        blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
+        blogi["createdon"] = datetime.datetime.utcfromtimestamp(
+            blogi["createdon"]["$date"] / 1000
+        )
         blogi["id"] = blogi["_id"]["$oid"]
         blogi["authorid"] = blogi["authorid"]["$oid"]
     return {"Total_Blogs": len(blogs), "blogs": blogs}

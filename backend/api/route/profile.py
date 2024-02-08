@@ -1,12 +1,30 @@
 import datetime
 import json
 from typing import Annotated
-from fastapi import APIRouter, Depends, Path, Query, HTTPException, status, Form
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    Path,
+    Query,
+    HTTPException,
+    UploadFile,
+    status,
+    Form,
+)
 from pydantic import EmailStr
 from ..database import Blog, User
 from ..auth import verify_token
 from ..models import AuthorList, AuthorProfile, General, ProfileModel, UserModel
-from ..utils import checkNone, hashed_password, verify_password
+from ..utils import (
+    checkNone,
+    deleteImage,
+    deleteImages,
+    hashed_password,
+    upload_image,
+    verify_password,
+)
 from mongoengine.errors import ValidationError
 from mongoengine.queryset.visitor import Q
 
@@ -41,28 +59,55 @@ def getUserProfile(udata: Annotated[tuple, Depends(verify_token)]):
     description="Update the remaining fields which are remaining to be filled.",
     response_description="Updated Successfully.",
 )
-def updateProfile(usermodel: UserModel, udata: Annotated[tuple, Depends(verify_token)]):
-    user_data = User.objects(id=udata[2]).first()
-    firstname = checkNone(usermodel.firstname, user_data.firstname)
-    lastname = checkNone(usermodel.lastname, user_data.lastname)
-    user_data.update(
-        set__firstname=firstname,
-        set__lastname=lastname,
-        set__dob=checkNone(usermodel.dob, user_data.dob),
-        set__profileurl=checkNone(usermodel.profileurl, user_data.profileurl),
-    )
+async def updateProfile(
+    background: BackgroundTasks,
+    firstname: Annotated[
+        str,
+        Form(description="First Name for the User", examples=["John"]),
+    ],
+    lastname: Annotated[
+        str,
+        Form(description="Last Name of the User", examples=["Kevlar"]),
+    ],
+    dob: Annotated[
+        str,
+        Form(description="User's Date of Birth", examples=["2003-04-22"]),
+    ],
+    udata: Annotated[tuple, Depends(verify_token)],
+    image: Annotated[UploadFile | str, File(description="Profile Image")] = None,
+):
+    try:
+        user_data = User.objects(id=udata[2]).first()
+        first = checkNone(firstname, user_data.firstname)
+        last = checkNone(lastname, user_data.lastname)
+        public_id = user_data.profileurl
+        if public_id != None:
+            delete_id = public_id
+            background.add_task(deleteImage, public_id=delete_id)
+        if image != "null":
+            public_id = await upload_image(image)
+        user_data.update(
+            set__firstname=first,
+            set__lastname=last,
+            set__dob=checkNone(dob, user_data.dob),
+            set__profileurl=public_id,
+        )
 
-    if firstname is None:
-        full_name = usermodel.lastname
-    elif lastname is None:
-        full_name = usermodel.firstname
-    elif firstname is None and lastname is None:
-        full_name = None
-    else:
-        full_name = firstname + " " + lastname
-    Blog.objects(authorid=user_data.id).update(set__name=full_name)
+        if firstname is None:
+            full_name = lastname
+        elif lastname is None:
+            full_name = firstname
+        elif firstname is None and lastname is None:
+            full_name = None
+        else:
+            full_name = first + " " + last
+        Blog.objects(authorid=user_data.id).update(set__name=full_name)
 
-    return {"message": "Profile Updated Successfully"}
+        return {"message": "Profile Updated Successfully"}
+    except Exception as e:
+        print(e)
+        return {"message": "Something went wrong"}
+        pass
 
 
 @profile.delete(
@@ -72,11 +117,22 @@ def updateProfile(usermodel: UserModel, udata: Annotated[tuple, Depends(verify_t
     description="Deletes the user profile along with user related blogs.",
     response_description="Delete Success",
 )
-def deleteUserProfile(udata: Annotated[tuple, Depends(verify_token)]):
+async def deleteUserProfile(
+    background: BackgroundTasks, udata: Annotated[tuple, Depends(verify_token)]
+):
     user_data = User.objects(id=udata[2]).first()
     blogs = Blog.objects(authorid=udata[2])
+    list_of_publicid = []
     if blogs:
+        for blog in blogs:
+            thumbnailurl = json.loads(blog.to_json())["thumbnail"]
+            if thumbnailurl != "null":
+                list_of_publicid.append(thumbnailurl)
         blogs.delete()
+    if len(list_of_publicid) != 0:
+        background.add_task(deleteImages, public_id=list_of_publicid)
+    if user_data.profileurl != None:
+        background.add_task(deleteImage, public_id=user_data.profileurl)
     user_data.delete()
     return {"message": "User Deleted Successfully"}
 
@@ -89,10 +145,15 @@ def deleteUserProfile(udata: Annotated[tuple, Depends(verify_token)]):
     response_description="Password Changed Successfully",
 )
 def forgotPassword(
-    password: Annotated[str, Query(description="Password you want to change", example="johnny@12")],
+    password: Annotated[
+        str, Query(description="Password you want to change", example="johnny@12")
+    ],
     email: Annotated[
         EmailStr,
-        Query(description="Email of the user want to change password", example="johnny@gmail.com"),
+        Query(
+            description="Email of the user want to change password",
+            example="johnny@gmail.com",
+        ),
     ],
 ):
     user_data = User.objects(email=email).first()
@@ -149,9 +210,9 @@ def getAuthorProfile(
             data["createdon"]["$date"] / 1000
         ).strftime("%Y-%m-%d")
         try:
-            data["dob"] = datetime.datetime.utcfromtimestamp(data["dob"]["$date"] / 1000).strftime(
-                "%Y-%m-%d"
-            )
+            data["dob"] = datetime.datetime.utcfromtimestamp(
+                data["dob"]["$date"] / 1000
+            ).strftime("%Y-%m-%d")
         except KeyError as ke:
             pass
         if data is None:
@@ -164,14 +225,17 @@ def getAuthorProfile(
             )
             blogi["id"] = blogi["_id"]["$oid"]
             blogi["authorid"] = blogi["authorid"]["$oid"]
-        return {"profile": data, "blogs": {"Total_Blogs": len(author_blogs), "blogs": author_blogs}}
+        return {
+            "profile": data,
+            "blogs": {"Total_Blogs": len(author_blogs), "blogs": author_blogs},
+        }
     except ValidationError as v:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Profile Not Found")
 
 
 @profile.get(
     "/search",
-    # response_model=AuthorList,
+    response_model=AuthorList,
     description="Searches the Author according to his firstname or lastname",
     summary="Search Authors",
     response_description="List of Authors",
@@ -182,7 +246,9 @@ def searchProfiles(
     query = Q(firstname__iregex=q) | Q(lastname__iregex=q)
     authors = json.loads(User.objects.filter(query).to_json())
     for blogi in authors:
-        blogi["createdon"] = datetime.datetime.utcfromtimestamp(blogi["createdon"]["$date"] / 1000)
+        blogi["createdon"] = datetime.datetime.utcfromtimestamp(
+            blogi["createdon"]["$date"] / 1000
+        )
         blogi["id"] = blogi["_id"]["$oid"]
         try:
             blogi["dob"] = datetime.datetime.utcfromtimestamp(

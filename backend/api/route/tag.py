@@ -14,14 +14,16 @@ tag = APIRouter(prefix="/api", tags=["Blog Tags"])
     summary="Add the Tag Name",
     description="Adds the tag name which can be used with blog",
     response_description="Tag Added Successfully",
+    dependencies=[Depends(verify_token)],
 )
 def addTag(
-    name: Annotated[str, Path(description="Tag Name which want to add", example="Java")],
-    udata: Annotated[tuple, Depends(verify_token)],
+    name: Annotated[str, Path(description="Tag Name which want to add", example="Java")]
 ):
     tags_data = Tags.objects(name=name).first()
     if tags_data is not None:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=f"{name} Tag Already Present")
+        raise HTTPException(
+            status.HTTP_403_FORBIDDEN, detail=f"{name} Tag Already Present"
+        )
     Tags(name=name).save()
     return {"message": f"Tag {name} added Successfully"}
 
@@ -45,7 +47,9 @@ def viewTag():
     description="Searching Tags according to Query",
     response_description="List of Tags.",
 )
-def searchTags(q: Annotated[str, Query(description="Searching the Tags", example="python")]):
+def searchTags(
+    q: Annotated[str, Query(description="Searching the Tags", example="python")]
+):
     pattern = re.compile(f"{q}", re.IGNORECASE)
     tag_list = list(Tags.objects(name=pattern).exclude("id").scalar("name"))
     return {"total_tags": len(tag_list), "tags": tag_list}

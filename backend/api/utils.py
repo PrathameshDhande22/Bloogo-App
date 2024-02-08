@@ -1,10 +1,15 @@
 import os
 from typing import Any
+from fastapi import UploadFile
 import jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from random import randbytes
 import hashlib
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 secret_key = os.getenv("SECRET")
 pwd = CryptContext(schemes="bcrypt")
@@ -20,7 +25,9 @@ def get_access_token(email: str) -> str:
     """
     expiry_date = str(datetime.today().date() + timedelta(days=2))
     encoded = jwt.encode(
-        payload={"email": email, "expiry": expiry_date}, key=secret_key, algorithm="HS256"
+        payload={"email": email, "expiry": expiry_date},
+        key=str(secret_key),
+        algorithm="HS256",
     )
     return encoded
 
@@ -57,7 +64,7 @@ def decode_jwt(token: str) -> dict:
     :return: decoded payload data in form of dictionary.
     :rtype: dict
     """
-    decoded = jwt.decode(token, key=secret_key, algorithms=["HS256"])
+    decoded = jwt.decode(token, key=str(secret_key), algorithms=["HS256"])
     return decoded
 
 
@@ -100,3 +107,40 @@ def checkNone(first: Any, second: Any) -> Any:
     if first is None:
         return second
     return first
+
+
+async def upload_image(file: UploadFile) -> str:
+    """Uploades the file to the Cloudinary Server.
+
+    Args:
+        file (UploadFile): The file uploaded to the api endpoint.
+
+    Returns:
+        str: public_id of the uploaded file in the cloudinary.
+    """
+    resp = cloudinary.uploader.upload(file.file)
+    return resp["public_id"]
+
+
+def deleteImage(public_id: str):
+    """Deletes the image from the cloudinary server.
+
+    Args:
+        public_id (str): of the image to be deleted.
+    """
+    try:
+        cloudinary.uploader.destroy(public_id)
+    except Exception as e:
+        print("Exception in deleteimage ", e)
+
+
+def deleteImages(public_id: list[str]):
+    """Delete all images from the cloudinary server.
+
+    Args:
+        public_id (list[str]): list of public ids to delete images.
+    """
+    try:
+        cloudinary.api.delete_resources(public_id, all=True)
+    except Exception as e:
+        print(e)

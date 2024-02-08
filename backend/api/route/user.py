@@ -1,5 +1,13 @@
 from typing import Annotated
-from fastapi import APIRouter, BackgroundTasks, Path, Depends, Form, HTTPException, status
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Path,
+    Depends,
+    Form,
+    HTTPException,
+    status,
+)
 from pydantic import EmailStr
 from ..auth import verify_token
 from ..database import User
@@ -44,9 +52,14 @@ async def registeruser(register: RegisterModel):
 async def loginUser(
     email: Annotated[
         EmailStr,
-        Form(description="Email Required to get the access Token", example="john@gmail.com"),
+        Form(
+            description="Email Required to get the access Token",
+            example="john@gmail.com",
+        ),
     ],
-    password: Annotated[str, Form(description="Password Required to login", example="johnny@12")],
+    password: Annotated[
+        str, Form(description="Password Required to login", example="johnny@12")
+    ],
 ):
     """Login for access token using you can add blog, update profile and various actions."""
     user_data = User.objects(email=email).first()
@@ -56,12 +69,10 @@ async def loginUser(
         )
     if not verify_password(password, user_data.password):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail={"message": "Invalid Password"}
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={"message": "Invalid Password"},
         )
     return {"message": "Login Success", "Access_Token": get_access_token(email)}
-
-
-# TODO : Create the Google Login using Google Authlib
 
 
 @user.post(
@@ -75,7 +86,9 @@ def sendVerificationMail(
     udata: Annotated[tuple, Depends(verify_token)], background: BackgroundTasks
 ):
     if udata[1]:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, detail="Your Email is Already Verified")
+        raise HTTPException(
+            status.HTTP_403_FORBIDDEN, detail="Your Email is Already Verified"
+        )
     hashed = getHash()
     User.objects(email=udata[0]).update(set__verification=hashed)
     background.add_task(send_email, token=hashed, email=udata[0])
@@ -91,12 +104,15 @@ def sendVerificationMail(
 )
 def verifyUser(
     token: Annotated[
-        str, Path(description="An Email Send Verification Code", example="oerueikcvnsahut")
+        str,
+        Path(description="An Email Send Verification Code", example="oerueikcvnsahut"),
     ]
 ):
     user_token_data = User.objects(verification=token).first()
     if user_token_data is None:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Invalid verification Code")
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND, detail="Invalid verification Code"
+        )
     user_token_data.update(set__isverified=True, set__verification=None)
     return {"message": "User Verified Successfully"}
 

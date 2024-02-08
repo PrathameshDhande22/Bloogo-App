@@ -36,11 +36,16 @@ def verify_token(auth_token: Annotated[str, Security(token)]):
         if not check_Expiry(expiry_date):
             raise HTTPException(
                 status.HTTP_403_FORBIDDEN,
-                detail={"message": "Token Expired", "help": "Login Again to generate new Token."},
+                detail={
+                    "message": "Token Expired",
+                    "help": "Login Again to generate new Token.",
+                },
             )
         user_data = User.objects(email=decoded_jet.get("email")).first()
         if user_data is None:
-            raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Unauthorization Access")
+            raise HTTPException(
+                status.HTTP_404_NOT_FOUND, detail="Unauthorization Access"
+            )
         return (user_data.email, user_data.isverified, user_data.id)
     except IndexError as i:
         raise HTTPException(status.HTTP_406_NOT_ACCEPTABLE, detail="Invalid Token")

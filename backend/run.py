@@ -5,4 +5,4 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    run("run:app", reload=True,env_file=".env")
+    run("run:app", reload=True, env_file="./.env")

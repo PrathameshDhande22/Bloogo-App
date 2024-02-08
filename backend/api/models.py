@@ -11,21 +11,28 @@ class Sort(str, Enum):
 
 class TagsList(BaseModel):
     total_tags: int = Field(examples=[12], description="Total Number of Tags")
-    tags: list[str] = Field(examples=[["c++", "python"]], description="All tags in a List")
+    tags: list[str] = Field(
+        examples=[["c++", "python"]], description="All tags in a List"
+    )
 
 
 class Token(BaseModel):
     message: str = Field(description="Login Success", examples=["Login Success"])
-    Access_Token: str = Field(description="JWT Access Token", examples=["dfdksksfd jflkddfs"])
+    Access_Token: str = Field(
+        description="JWT Access Token", examples=["dfdksksfd jflkddfs"]
+    )
 
 
 class General(BaseModel):
-    message: str = Field(description="Used to show any general message", examples=["Success"])
+    message: str = Field(
+        description="Used to show any general message", examples=["Success"]
+    )
 
 
 class HelpMessage(General):
     help: str = Field(
-        description="Used to Show any Help Message", examples=["use login to get Access"]
+        description="Used to Show any Help Message",
+        examples=["use login to get Access"],
     )
 
 
@@ -38,7 +45,9 @@ class BlogModel(BaseModel):
     content: str = Field(description="An Blog Content in HTML Format")
     createdon: datetime = Field(description="Blog created Date", default=datetime.now())
     tag: str = Field(description="Tag name for the Blog", examples=["Python"])
-    name: str = Field(description="Author Name which added the blog", examples=["John Kevlar"])
+    name: str = Field(
+        description="Author Name which added the blog", examples=["John Kevlar"]
+    )
     authorid: str = Field(description="Author id")
 
 
@@ -48,18 +57,25 @@ class BlogData(BaseModel):
 
 
 class RegisterModel(BaseModel):
-    email: EmailStr = Field(description="Email to register the User", examples=["user@gmail.com"])
+    email: EmailStr = Field(
+        description="Email to register the User", examples=["user@gmail.com"]
+    )
     password: str = Field(description="Password", examples=["johnny@12"])
-    isgooglelogin: bool = False
     isverified: bool = False
     createdon: date = datetime.now().date()
 
 
 class UserModel(BaseModel):
-    firstname: str = Field(description="First Name for the User", examples=["John"], default=None)
-    lastname: str = Field(description="Last Name of the User", examples=["Kevlar"], default=None)
-    dob: date = Field(description="User's Date of Birth", examples=["2003-04-22"], default=None)
-    profileurl: str = Field(
+    firstname: str = Field(
+        description="First Name for the User", examples=["John"], default=None
+    )
+    lastname: str = Field(
+        description="Last Name of the User", examples=["Kevlar"], default=None
+    )
+    dob: date = Field(
+        description="User's Date of Birth", examples=["2003-04-22"], default=None
+    )
+    profileurl: str | None = Field(
         description="Profile picture url of the User",
         examples=["https://www.facebook.com/mother.png"],
         default=None,
@@ -67,14 +83,21 @@ class UserModel(BaseModel):
 
 
 class ProfileModel(BaseModel):
-    email: EmailStr = Field(description="Email to register the User", examples=["user@gmail.com"])
-    isgooglelogin: bool = False
+    email: EmailStr = Field(
+        description="Email to register the User", examples=["user@gmail.com"]
+    )
     isverified: bool = False
     createdon: date
-    firstname: str = Field(description="First Name for the User", examples=["John"], default=None)
-    lastname: str = Field(description="Last Name of the User", examples=["Kevlar"], default=None)
-    dob: date = Field(description="User's Date of Birth", examples=["2003-04-22"], default=None)
-    profileurl: str = Field(
+    firstname: str = Field(
+        description="First Name for the User", examples=["John"], default=None
+    )
+    lastname: str = Field(
+        description="Last Name of the User", examples=["Kevlar"], default=None
+    )
+    dob: date = Field(
+        description="User's Date of Birth", examples=["2003-04-22"], default=None
+    )
+    profileurl: str | None = Field(
         description="Profile picture url of the User",
         examples=["https://www.facebook.com/mother.png"],
         default=None,
