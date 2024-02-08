@@ -7,13 +7,15 @@ import { useToken } from "../../Hooks/useToken";
 import { useFormik } from "formik";
 import { change_Schema } from "../../Schemas/scheme";
 import { changePassword } from "../../api/api";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { PleaseWait } from "../../components/PleaseWait";
 
 export const ChangePassword = () => {
   useTitle("Change Password");
   const [showCurrent, setCurrent] = useState(false);
   const [showNew, setNew] = useState(false);
   const [showRe, setRe] = useState(false);
+  const [isChanging, setChanging] = useState(false);
 
   const handlestate = (fun, state) => {
     fun(!state);
@@ -34,19 +36,19 @@ export const ChangePassword = () => {
     validationSchema: change_Schema,
     onSubmit: (value) => {
       const formdata = new FormData();
+      setChanging(true);
       formdata.append("password", value.newpassword);
       formdata.append("current", value.oldpassword);
       changePassword(formdata, token)
         .then((res) => {
+          setChanging(false);
           if (res.status === 200) {
             toast.success("Password Changed Successfully.");
-            setTimeout(() => {
-              navi(-1);
-            }, 2500);
+            navi(-1);
           }
         })
         .catch((res) => {
-          console.log(res);
+          setChanging(false);
           if (res?.response?.status === 406) {
             toast.error("Old Password and New Password are Same");
           } else if (res?.response?.status === 401) {
@@ -64,18 +66,6 @@ export const ChangePassword = () => {
   });
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="colored"
-      />
       <div className="my-4 w-full flex flex-col justify-center items-center">
         <div className="w-[95%] sm:w-96 mx-2 rounded-xl px-2 py-10  border-2 border-indigo-500">
           <form
@@ -192,13 +182,17 @@ export const ChangePassword = () => {
               />
             </div>
             <div className="flex flex-row justify-center items-center gap-2 flex-wrap">
-              <button
-                type="submit"
-                name="submit"
-                className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
-              >
-                Change
-              </button>
+              {isChanging ? (
+                <PleaseWait />
+              ) : (
+                <button
+                  type="submit"
+                  name="submit"
+                  className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
+                >
+                  Change
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => {

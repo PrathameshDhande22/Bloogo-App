@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { GitHub, LinkedIn, Instagram, Favorite } from "@mui/icons-material";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip } from "react-tooltip";
+import Tooltip from "@mui/material/Tooltip";
 
-export const IconsFooter = [
+const IconsFooter = [
   {
     icon: <GitHub key={0} style={{ fontSize: 30 }} />,
     link: "https://github.com/PrathameshDhande22/Bloogo-App",
@@ -53,28 +52,26 @@ const Footer = () => {
         <div className="flex flex-row mx-3 gap-5 flex-wrap">
           {IconsFooter.map((value, index) => {
             return (
-              <Link to={value.link} key={index}>
-                <Tooltip
-                  anchorSelect={`.${value.classname}`}
-                  place="bottom"
-                  variant="info"
-                  noArrow
-                  offset={1}
-                >
-                  {value.title}
-                </Tooltip>
-                <button
-                  className={`border-indigo-600 border-2 rounded-full hover:text-indigo-600 p-2`}
-                >
-                  {value.icon}
-                </button>
-              </Link>
+              <Tooltip
+                key={index}
+                title={value.title}
+                arrow
+                placement="top-start"
+              >
+                <Link to={value.link} key={index}>
+                  <button
+                    className={`border-indigo-600 border-2 rounded-full hover:text-indigo-600 p-2`}
+                  >
+                    {value.icon}
+                  </button>
+                </Link>
+              </Tooltip>
             );
           })}
         </div>
       </div>
       <div className="flex flex-col flex-wrap justify-center items-center gap-2 mx-3 text-base">
-        <span>Copyright © 2023 All rights reserved</span>
+        <span>Copyright © 2024 All rights reserved</span>
         <span>
           Made with <Favorite style={{ color: "red", fontSize: 18 }} /> by{" "}
           <a href={IconsFooter[0].link} className="text-indigo-600">

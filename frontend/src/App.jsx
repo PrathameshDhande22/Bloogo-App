@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { BrowserRouter } from "react-router-dom";
 import { DetectSignLogin } from "./components/DetectSignLogin";
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme({
   palette: {
@@ -25,8 +27,20 @@ const theme = createTheme({
 
 function App() {
   return (
-    <>
+    <main>
       <BrowserRouter basename="/">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
         <ThemeProvider theme={theme}>
           <DetectSignLogin>
             <Header />
@@ -37,7 +51,7 @@ function App() {
           </DetectSignLogin>
         </ThemeProvider>
       </BrowserRouter>
-    </>
+    </main>
   );
 }
 

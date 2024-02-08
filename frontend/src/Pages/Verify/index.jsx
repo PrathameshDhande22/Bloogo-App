@@ -2,14 +2,14 @@ import { useDispatch } from "react-redux";
 import { useToken } from "../../Hooks/useToken";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { verifyEmail, getProfile } from "../../api/api";
+import { verifyEmail } from "../../api/api";
 import { useEffect } from "react";
-import { setData } from "../../Store/Reducer/DataSlice";
 import { useTitle } from "../../Hooks/useTitle";
 import { GoVerified } from "react-icons/go";
 import { MdDangerous } from "react-icons/md";
 import Spinner from "../../components/Spinner";
 import { FaExclamation } from "react-icons/fa";
+import useProfile from "../../Hooks/useProfile";
 
 export const Verify = () => {
   useTitle("Email Verification");
@@ -19,12 +19,9 @@ export const Verify = () => {
   const dispatch = useDispatch();
   const [istrue, setIsTrue] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { saveProfile } = useProfile();
 
   useEffect(() => {
-    const setprofile = (newdata) => {
-      dispatch(setData(newdata));
-    };
-
     verifyEmail(tokendata.token)
       .then((res) => {
         if (res.status === 200) {
@@ -32,20 +29,14 @@ export const Verify = () => {
           setIsTrue(true);
 
           if (token !== undefined) {
-            getProfile(token)
-              .then((res) => {
-                setprofile(res.data);
-              })
-              .catch((res) => {
-                console.log(res);
-              });
+            saveProfile();
           }
         }
       })
       .catch(() => {
         setIsLoading(false);
       });
-  }, [token, dispatch, tokendata, navi]);
+  }, [token, dispatch, tokendata, navi, saveProfile]);
 
   return (
     <>

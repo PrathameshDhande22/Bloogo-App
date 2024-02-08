@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { forgot_Schema } from "../../Schemas/scheme";
 import { forgotPassword } from "../../api/api";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export const Forgot = () => {
@@ -39,9 +39,7 @@ export const Forgot = () => {
       forgotPassword({ email: value.email, password: value.password })
         .then(() => {
           toast.success("Password Changed Successfully.");
-          setTimeout(() => {
-            navi("/");
-          }, 2500);
+          navi("/");
         })
         .catch((res) => {
           if (res?.response?.status === 404) {
@@ -56,18 +54,6 @@ export const Forgot = () => {
   });
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="colored"
-      />
       <LoginSignBackground>
         <form
           className="flex flex-col justify-center items-center"

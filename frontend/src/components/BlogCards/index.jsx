@@ -1,7 +1,7 @@
 import Prop from "prop-types";
 import { BlogCard } from "../BlogCard";
 
-export const BlogCards = ({ blogs, showbuttons }) => {
+export const BlogCards = ({ blogs, showbuttons,getBlogs }) => {
   return (
     <>
       {blogs.map((value, index) => {
@@ -17,6 +17,7 @@ export const BlogCards = ({ blogs, showbuttons }) => {
             title={value.title}
             authorid={value.authorid}
             showbuttons={showbuttons}
+            getBlogs={getBlogs}
           />
         );
       })}
@@ -27,4 +28,5 @@ export const BlogCards = ({ blogs, showbuttons }) => {
 BlogCards.propTypes = {
   blogs: Prop.array,
   showbuttons: Prop.bool,
+  getBlogs:Prop.func
 };

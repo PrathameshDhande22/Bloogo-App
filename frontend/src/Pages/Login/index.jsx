@@ -15,12 +15,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { login_Schema } from "../../Schemas/scheme";
 import { loginUser } from "../../api/api";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { saveToken } from "../../utils/storetoken";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../Store/Reducer/LoginSlice";
+import { PleaseWait } from "../../components/PleaseWait";
 
 export const Login = () => {
+  const [islogining, setLogining] = useState(false);
   useTitle("Login");
   const navi = useNavigate();
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ export const Login = () => {
     },
     validationSchema: login_Schema,
     onSubmit: (value) => {
+      setLogining(true);
       const fd = new FormData();
       fd.append("email", value.email);
       fd.append("password", value.password);
@@ -41,11 +44,10 @@ export const Login = () => {
           saveToken(res.data?.Access_Token);
           handleLogin();
           toast.success("Login Successful.");
-          setTimeout(() => {
-            navi("/");
-          }, 4000);
+          navi("/");
         })
         .catch((res) => {
+          setLogining(false);
           if (res?.response?.status === 401) {
             toast.error("Invalid Password !");
           } else if (res?.response?.status === 404) {
@@ -73,18 +75,6 @@ export const Login = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="colored"
-      />
       <LoginSignBackground>
         <form
           className="flex flex-col justify-center items-center"
@@ -156,13 +146,18 @@ export const Login = () => {
                 Forgot Password ?
               </span>
             </Link>
-            <button
-              type="submit"
-              name="submit"
-              className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
-            >
-              Login
-            </button>
+            {islogining ? (
+              <PleaseWait />
+            ) : (
+              <button
+                type="submit"
+                name="submit"
+                className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
+                disabled={islogining}
+              >
+                Login
+              </button>
+            )}
           </div>
         </form>
         <div className="mt-3 font-ysb flex flex-col justify-center items-center text-base">

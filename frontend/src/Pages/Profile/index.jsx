@@ -9,12 +9,13 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getImageURL } from "../../utils/imageurl";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useToken } from "../../Hooks/useToken";
 import { Upload } from "@mui/icons-material";
-import { updateProfile, uploadPhoto } from "../../api/api";
+import { updateProfile } from "../../api/api";
 import { DialogComponent } from "../../components/DialogComponent";
 import { TbEditCircle } from "react-icons/tb";
+import useProfile from "../../Hooks/useProfile";
 
 export const Profile = () => {
   const userdata = useSelector((state) => state.udata.userData);
@@ -26,6 +27,8 @@ export const Profile = () => {
     dob: "",
   });
 
+  const { saveProfile } = useProfile();
+
   useEffect(() => {
     setUserState({
       firstname: userdata.firstname === null ? "" : userdata.firstname,
@@ -34,6 +37,8 @@ export const Profile = () => {
     });
     if (userdata?.profileurl !== null) {
       setImgsrc(getImageURL(userdata.profileurl));
+    } else {
+      setImgsrc(userImage);
     }
   }, [userdata]);
 
@@ -52,33 +57,6 @@ export const Profile = () => {
   };
 
   const token = useToken();
-  const uploadprofile = () => {
-    const formdata = new FormData();
-    if (uploadFile == null) {
-      toast.info("Upload Image First");
-      return;
-    }
-    formdata.append("file", uploadFile);
-    formdata.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
-    uploadPhoto(formdata)
-      .then((res) => {
-        setuploadFile(null);
-        setOpen(false);
-        updateProfile({ profileurl: res.data?.public_id }, token)
-          .then(() => {
-            toast.success("Profile Photo Updated Successfully.");
-            setTimeout(() => {
-              location.reload();
-            }, [2500]);
-          })
-          .catch(() => {
-            toast.error("Cannot Update Profile");
-          });
-      })
-      .catch(() => {
-        toast.error("Something Wrong Happened At our End.");
-      });
-  };
 
   const update_name_profile = () => {
     if (
@@ -87,23 +65,21 @@ export const Profile = () => {
       userState.dob.length !== 0
     ) {
       setLoading(true);
-      updateProfile(
-        {
-          firstname: userState.firstname,
-          lastname: userState.lastname,
-          dob: userState.dob,
-        },
-        token
-      )
+      const fd = new FormData();
+      fd.append("firstname", userState.firstname);
+      fd.append("lastname", userState.lastname);
+      fd.append("dob", userState.dob);
+      fd.append("image", uploadFile);
+      updateProfile(fd, token)
         .then(() => {
           setLoading(false);
           toast.success("User Data Updated Successfully");
           setTimeout(() => {
-            location.reload();
+            saveProfile();
           }, 2500);
         })
-        .catch((res) => {
-          console.log(res);
+        .catch(() => {
+          setLoading(false);
           toast.error("Error While updating the profile.");
         });
     } else {
@@ -114,18 +90,6 @@ export const Profile = () => {
   useTitle("Profile");
   return (
     <div className="flex flex-col justify-center items-center md:w-full my-10 mx-4">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="colored"
-      />
       <div className="w-full border-4 border-indigo-600 rounded-xl px-4 py-3 md:w-1/2 shadow-2xl">
         <div className="flex flex-col gap-2 justify-center flex-wrap items-center">
           <div className="text-2xl self-start md:text-4xl font-gara font-bold pb-2">
@@ -147,11 +111,7 @@ export const Profile = () => {
                   onMouseOut={() => setupdateBlack(false)}
                   className="relative  rounded-full"
                 >
-                  {userdata.profileurl == null ? (
-                    <img src={userImage} alt="User Image" className="w-40"/>
-                  ) : (
-                    <Avatar src={imgsrc} sx={{ height: 150, width: 150 }} />
-                  )}
+                  <Avatar src={imgsrc} sx={{ height: 150, width: 150 }} />
                   <div
                     className={`w-full h-full rounded-full opacity-60 absolute top-0 z-40  bg-black ${
                       updateBlack ? "visible" : "hidden"
@@ -205,6 +165,7 @@ export const Profile = () => {
               type="button"
               onClick={update_name_profile}
               id="btnupdate"
+              disabled={isLoading}
             >
               <div className="flex items-center flex-row gap-2">
                 {isLoading ? (
@@ -237,7 +198,7 @@ export const Profile = () => {
           }
           content={
             <div className="font-noto">
-              {uploadFile == null ? (
+              {uploadFile === null ? (
                 <span className="flex flex-col flex-wrap gap-3">
                   <span>Select Your Profile Photo: </span>
                   <div className="flex flex-wrap flex-row gap-3 items-center border-2 border-gray-400 rounded-lg p-3 md:p-10">
@@ -260,10 +221,9 @@ export const Profile = () => {
                   <span className=" block self-start place-content-start">
                     Uploaded Profile Image :{" "}
                   </span>
-                  <img
-                    className="md:w-40 w-28 rounded-full"
+                  <Avatar
                     src={URL.createObjectURL(uploadFile)}
-                    alt="User profile"
+                    sx={{ height: 150, width: 150 }}
                   />
                 </span>
               )}
@@ -274,7 +234,12 @@ export const Profile = () => {
               <button
                 className="font-spec text-lg font-bold px-3 py-1 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-{bg} ease-in-out duration-200"
                 type="button"
-                onClick={uploadprofile}
+                onClick={() => {
+                  if (uploadFile !== null) {
+                    setImgsrc(URL.createObjectURL(uploadFile));
+                  }
+                  setOpen(false);
+                }}
               >
                 Update
               </button>

@@ -7,7 +7,6 @@ import { useToken } from "../../Hooks/useToken";
 import { setData } from "../../Store/Reducer/DataSlice";
 import { LogoutDialog } from "../LogoutDialog";
 import isProfileComplete from "../../utils/isProfileComplete";
-import "react-tooltip/dist/react-tooltip.css";
 import {
   Avatar,
   Badge,

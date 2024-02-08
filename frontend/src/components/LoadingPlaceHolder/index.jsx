@@ -45,6 +45,7 @@ export const LoadingPlaceHolder = ({ times, showFor }) => {
           </div>
         );
       }
+      break;
   }
 
   return (

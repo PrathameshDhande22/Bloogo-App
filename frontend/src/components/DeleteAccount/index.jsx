@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteUserProfile } from "../../api/api";
 import { useToken } from "../../Hooks/useToken";
 import { DialogComponent } from "../DialogComponent";
+import { toast } from "react-toastify";
 
 export const DeleteAccount = ({ open, setOpen }) => {
   const handleClose = () => {
@@ -23,6 +24,7 @@ export const DeleteAccount = ({ open, setOpen }) => {
         deleteToken();
         dispatch(removeData());
         dispatch(removeLogin());
+        toast.success("Your Profile Has been deleted successfully");
         navi("/");
       })
       .catch(() => {

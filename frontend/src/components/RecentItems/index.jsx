@@ -17,9 +17,8 @@ export const RecentItems = () => {
     (value) => {
       removeHistory(value);
       setQuery(getHistory);
-      query;
     },
-    [query]
+    []
   );
   return (
     <>

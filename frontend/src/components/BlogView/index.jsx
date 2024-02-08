@@ -2,9 +2,13 @@ import Prop from "prop-types";
 import { getThumbnailURL } from "../../utils/imageurl";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import parse from "html-react-parser";
+import MarkdownPreview from "@uiw/react-markdown-preview";
 import { readingTime } from "reading-time-estimator";
 import moment from "moment/moment";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+import remarkImages from "remark-images";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -58,8 +62,16 @@ export const BlogView = ({ blogdata }) => {
             {moment(blogdata?.createdon).fromNow().toString()}
           </span>
         </div>
-        <div className="font-noto self-start leading-relaxed tracking-wide">
-          {parse(String(blogdata.content))}
+        <div
+          className="font-noto self-start leading-relaxed tracking-wide"
+          data-color-mode="light"
+        >
+          <MarkdownPreview
+            source={blogdata?.content}
+            rehypePlugins={[rehypeRaw, rehypeAutolinkHeadings]}
+            remarkPlugins={[remarkGfm, remarkImages]}
+            skipHtml
+          />
         </div>
         <div className="self-start">
           <span className="px-3 inline-block py-1 bg-neutral-100 rounded-2xl border-2 border-gray-400 font-meri text-xs">

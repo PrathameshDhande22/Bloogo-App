@@ -1,22 +1,22 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { Error } from "../Error";
 import { useTitle } from "../../Hooks/useTitle";
 import { useToken } from "../../Hooks/useToken";
-import { ToastContainer, toast } from "react-toastify";
-import { updateBlog, uploadPhoto, viewBlog } from "../../api/api";
+import { toast } from "react-toastify";
+import { updateBlog, viewBlog } from "../../api/api";
 import { GrUpdate } from "react-icons/gr";
 import { Loading } from "../NewBlog";
-import { Close, FileUpload, Upload } from "@mui/icons-material";
+import { Close, Upload } from "@mui/icons-material";
 import { TextField } from "@mui/material";
-import JoditEditor, { Jodit } from "jodit-react";
 import { Taglist } from "../../components/TagList";
 import { DialogComponent } from "../../components/DialogComponent";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { getThumbnailURL } from "../../utils/imageurl";
 import { TbEditCircle } from "react-icons/tb";
 import { useCallback } from "react";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
 export const Edit = () => {
   const blogid = useParams()?.id;
@@ -28,7 +28,6 @@ export const Edit = () => {
   const [uploadFile, setuploadFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [openThumb, setOpenThumb] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
   const [imgsrc, setImgsrc] = useState(null);
   const [updateBlack, setupdateBlack] = useState(false);
 
@@ -54,29 +53,7 @@ export const Edit = () => {
       });
   }, [blogid]);
 
-  const editor = useRef(null);
-
   const token = useToken();
-
-  const uploadThumbnail = useCallback(() => {
-    setOpenThumb(false);
-    if (uploadFile !== null) {
-      const formdata = new FormData();
-      formdata.append("file", uploadFile);
-      formdata.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
-      uploadPhoto(formdata)
-        .then((res) => {
-          setUploaded(true);
-          setData({ ...data, thumbnail: res.data?.public_id });
-          setImgsrc(getThumbnailURL(res.data?.public_id));
-          toast.success("Thumbnail Uploaded Successfully");
-        })
-        .catch(() => {
-          toast.error("Something Wrong with Server.");
-        });
-    }
-  }, [data, uploadFile]);
-
   const navi = useNavigate();
 
   const handlePublish = useCallback(() => {
@@ -92,14 +69,12 @@ export const Edit = () => {
       formdata.append("content", data?.content);
       formdata.append("tag", data?.tag);
       formdata.append("title", data?.title);
-      formdata.append("thumbnail", data?.thumbnail);
+      formdata.append("image", uploadFile);
       updateBlog(blogid, token, formdata)
         .then(() => {
           setUpdating(false);
           toast.success("Blog Updated Successfully");
-          setTimeout(() => {
-            navi("/");
-          }, 1500);
+          navi("/");
         })
         .catch((res) => {
           if (res?.response?.status === 401) {
@@ -110,7 +85,7 @@ export const Edit = () => {
           setUpdating(false);
         });
     }
-  }, [blogid, data, navi, token]);
+  }, [blogid, data, navi, token, uploadFile]);
 
   const handleThumbnail = (e) => {
     setuploadFile(e.target.files[0]);
@@ -125,18 +100,6 @@ export const Edit = () => {
       ) : (
         <div>
           <div className="flex flex-col justify-center items-center w-full my-4">
-            <ToastContainer
-              position="top-center"
-              autoClose={1000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover={false}
-              theme="colored"
-            />
             <div className="flex flex-col flex-wrap gap-6 w-[95%] md:w-[50%]">
               <div className="flex flex-row justify-between items-center">
                 <div className="font-gara text-2xl md:text-4xl font-bold border-b-4 py-1 border-b-indigo-600 pe-6 select-none">
@@ -181,25 +144,16 @@ export const Edit = () => {
                   </>
                 ) : (
                   <div className="flex flex-col gap-3 justify-center items-center">
-                    <div className="w-52">
+                    <div className="w-full">
                       <img
                         src={URL.createObjectURL(uploadFile)}
                         alt="thumbnail"
                       />
                     </div>
-                    {uploaded ? null : (
-                      <button
-                        type="button"
-                        className="font- font-spec bg-lime-400 py-1 px-5 rounded-md text-indigo-900 hover:bg-lime-600 hover:text-white transition-colors"
-                        onClick={uploadThumbnail}
-                      >
-                        <FileUpload /> Upload Thumbnail
-                      </button>
-                    )}
                   </div>
                 )
               ) : (
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-col justify-center items-center relative">
                   <button
                     type="button"
                     className="w-1/2 relative"
@@ -228,33 +182,21 @@ export const Edit = () => {
                 value={data?.title}
                 inputProps={{ className: "font-gara text-2xl" }}
               />
-              <JoditEditor
-                ref={editor}
-                value={data?.content}
-                config={{
-                  buttons:
-                    "bold,italic,underline,strikethrough,ul,ol,font,fontsize,paragraph,classSpan,lineHeight,superscript,subscript,image,cut,copy,paste,hr,table,preview,indent,outdent,left,justify,center,right",
-                  enter: "p",
-                  height: "600px",
-                  width: "auto",
-                  toolbarAdaptive: false,
-                  toolbarButtonSize: "large",
-                  iframe: true,
-                  hidePoweredByJodit: true,
-                  defaultActionOnPaste: "insert_as_html",
-                  defaultLineHeight: 0.5,
-                  controls: {
-                    fontsize: {
-                      list: Jodit.atom([10, 12, 14, 16]),
-                    },
-                  },
-                }}
-                tabIndex={1}
-                onBlur={(newContent) =>
-                  setData({ ...data, content: newContent })
-                }
+              <div data-color-mode="light">
+                <MarkdownEditor
+                  value={data?.content}
+                  height="500px"
+                  enableScroll
+                  onChange={(value) => {
+                    setData({ ...data, content: value });
+                  }}
+                />
+              </div>
+              <Taglist
+                selected={setData}
+                data={data}
+                selectedValue={{ label: data?.tag, value: data?.tag }}
               />
-              <Taglist selected={setData} data={data} />
             </div>
             <DialogComponent
               open={open}
@@ -308,9 +250,7 @@ export const Edit = () => {
                     name="fileupload"
                     id=""
                     max={1}
-                    onChange={(e) => {
-                      setuploadFile(e.target.files[0]);
-                    }}
+                    onChange={handleThumbnail}
                     className="w-[107px] file:after:bg-red-500"
                   />
                 </div>
@@ -318,7 +258,7 @@ export const Edit = () => {
             ) : (
               <span className="flex p-2 flex-col gap-3 justify-evenly items-center">
                 <span className=" block self-start place-content-start">
-                  Uploaded Profile Image :{" "}
+                  Uploaded Thumbnail Image :{" "}
                 </span>
                 <img
                   className="w-1/2"
@@ -334,7 +274,12 @@ export const Edit = () => {
             <button
               className="font-spec text-lg font-bold px-3 py-1 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-{bg} ease-in-out duration-200"
               type="button"
-              onClick={uploadThumbnail}
+              onClick={() => {
+                if (uploadFile !== null) {
+                  setImgsrc(null);
+                }
+                setOpenThumb(false);
+              }}
             >
               Update
             </button>
@@ -342,6 +287,7 @@ export const Edit = () => {
               className="font-spec text-lg font-bold px-3 py-1 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-{bg} ease-in-out duration-200"
               onClick={() => {
                 setOpenThumb(false);
+                setuploadFile(null);
               }}
               type="button"
             >

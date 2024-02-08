@@ -1,4 +1,3 @@
-import axios from "axios";
 import apicall from ".";
 
 /**
@@ -84,22 +83,8 @@ export const verifyEmail = (verifycode) => {
 };
 
 /**
- * Uploading the profile picture of the user to the Cloudinary
- * @param {FormData} data
- * @returns Axios Promise
- */
-export const uploadPhoto = (data) => {
-  return axios.post(
-    `https://api.cloudinary.com/v1_1/${
-      import.meta.env.VITE_CLOUD_NAME
-    }/image/upload`,
-    data
-  );
-};
-
-/**
  * Updates the User Profile
- * @param {Object} data
+ * @param {FormData} data
  * @param {String} token
  * @returns Axios Promise
  */

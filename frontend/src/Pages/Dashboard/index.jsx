@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTitle } from "../../Hooks/useTitle";
 import { useNavigate } from "react-router-dom";
 import { useToken } from "../../Hooks/useToken";
@@ -20,9 +20,9 @@ export const Dashboard = () => {
   const token = useToken();
   const navi = useNavigate();
 
-  useEffect(() => {
-    setLoading(true);
-    const Per_Page = 6;
+  const Per_Page = 6;
+
+  const getBlogs = useCallback(() => {
     getUserBlogs(token)
       .then((res) => {
         if (res.status === 200) {
@@ -38,7 +38,11 @@ export const Dashboard = () => {
       .catch(() => {
         setLoading(false);
       });
-  }, [token, page]);
+  }, [page, token]);
+
+  useEffect(() => {
+    getBlogs();
+  }, [getBlogs]);
 
   const handleChange = (e, val) => {
     setPage(val);
@@ -77,7 +81,7 @@ export const Dashboard = () => {
               Your Blogs :{" "}
             </span>
             <div className="flex flex-col w-full gap-3 flex-wrap">
-              <BlogCards blogs={blogs} showbuttons />
+              <BlogCards blogs={blogs} showbuttons getBlogs={getBlogs} />
             </div>
             <Pagination
               page={page}

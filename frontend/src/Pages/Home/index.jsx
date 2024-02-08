@@ -8,7 +8,7 @@ export const Home = () => {
   useTitle("Home");
   const navigate = useNavigate();
   return (
-    <main>
+    <>
       <div className="mt-20">
         <div className="flex justify-center items-center flex-col gap-12">
           <h1 className="">
@@ -45,6 +45,6 @@ export const Home = () => {
         })}
       </div>
       <hr className="h-1 bg-gray-300 my-10 mx-10 md:mx-20" />
-    </main>
+    </>
   );
 };

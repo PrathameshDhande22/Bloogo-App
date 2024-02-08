@@ -15,12 +15,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { signup_Schema } from "../../Schemas/scheme";
 import { registerUser } from "../../api/api";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { PleaseWait } from "../../components/PleaseWait";
 
 export const SignUp = () => {
   useTitle("Sign Up");
   const navi = useNavigate();
+  const [isSigning, setSigning] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -30,8 +31,10 @@ export const SignUp = () => {
     },
     validationSchema: signup_Schema,
     onSubmit: (value) => {
+      setSigning(true);
       registerUser({ email: value.email, password: value.password })
         .then((res) => {
+          setSigning(false);
           if (res.status === 200) {
             toast.success(
               "Registration Successfull now login to Explore our Services"
@@ -42,7 +45,7 @@ export const SignUp = () => {
           }
         })
         .catch((res) => {
-          console.clear();
+          setSigning(false);
           if (res?.response?.status === 406) {
             toast.error("Email ID already Exists");
           } else if (res?.response?.status === 422) {
@@ -64,18 +67,6 @@ export const SignUp = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme="colored"
-      />
       <LoginSignBackground>
         <form
           className="flex flex-col justify-center items-center"
@@ -182,13 +173,17 @@ export const SignUp = () => {
                 </span>
               ) : null}
             </FormControl>
-            <button
-              name="submit"
-              type="submit"
-              className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
-            >
-              Sign Up
-            </button>
+            {isSigning ? (
+              <PleaseWait />
+            ) : (
+              <button
+                name="submit"
+                type="submit"
+                className="border-2 border-indigo-500 px-11 mt-2 rounded-lg py-2 font-meri text-sm hover:bg-indigo-500 hover:text-white transition-{bg} ease-in duration-150"
+              >
+                Sign Up
+              </button>
+            )}
           </div>
         </form>
         <div className="mt-3 font-ysb text-center text-base">

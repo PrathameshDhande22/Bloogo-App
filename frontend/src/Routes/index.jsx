@@ -28,6 +28,7 @@ import { useSelector } from "react-redux";
 import { RemoveAccess } from "../components/RemoveAccess";
 import AuthProvider from "../Auth";
 import { CheckAccess } from "../components/CheckAccess";
+import ProfileContext from "../components/ProfileContext";
 
 const NestedComponents = {
   home: (
@@ -65,7 +66,18 @@ const Content = () => {
       <Route path="/forgot" element={<Forgot />} />
       <Route path="/blog/:blogid" element={<Blog />} />
       <Route path="/author/:authorid" element={<PublicProfile />} />
-      <Route path="/verify/:token" element={uData ? <Error /> : <Verify />} />
+      <Route
+        path="/verify/:token"
+        element={
+          uData ? (
+            <Error />
+          ) : (
+            <ProfileContext>
+              <Verify />
+            </ProfileContext>
+          )
+        }
+      />
       <Route path="/tags/:tagname" element={<BlogTag />} />
       <Route path="/search" element={<SearchHome />}>
         <Route path="blog" element={<SearchBlog />} />
@@ -73,7 +85,14 @@ const Content = () => {
         <Route path="author" element={<SearchAuthor />} />
       </Route>
       <Route element={<AuthProvider />}>
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <ProfileContext>
+              <Profile />
+            </ProfileContext>
+          }
+        />
         <Route path="/change" element={<ChangePassword />} />
         <Route path="/send" element={uData ? <Error /> : <Send />} />
         <Route path="/blog/new" element={NestedComponents.newblog} />

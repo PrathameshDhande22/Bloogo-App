@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import Prop from "prop-types";
-import parse from "html-react-parser";
 import dayjs from "dayjs";
 import { getResizedThumbnailURL } from "../../utils/imageurl";
 import { useEffect, useState } from "react";
@@ -10,6 +9,12 @@ import { DialogComponent } from "../DialogComponent";
 import { deleteBlog } from "../../api/api";
 import { useToken } from "../../Hooks/useToken";
 import { readingTime } from "reading-time-estimator";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+import remarkImages from "remark-images";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import MarkdownPreview from "@uiw/react-markdown-preview";
+import { toast } from "react-toastify";
 
 export const BlogCard = ({
   name,
@@ -21,6 +26,7 @@ export const BlogCard = ({
   tag,
   authorid,
   showbuttons,
+  getBlogs,
 }) => {
   const [imgsrc, setImgsrc] = useState(null);
 
@@ -46,8 +52,9 @@ export const BlogCard = ({
   const deleteblog = () => {
     deleteBlog(id, token)
       .then(() => {
+        toast.success("Blog deleted successfully");
         setOpen(false);
-        location.reload();
+        getBlogs();
       })
       .catch(() => {});
   };
@@ -70,8 +77,16 @@ export const BlogCard = ({
                 <div className="font-noto md:text-2xl text-sm sm:text-xl font-bold line-clamp-2">
                   {title}
                 </div>
-                <div className="font-noto text-sm font-thin sm:line-clamp-2 hidden lg:line-clamp-4 md:line-clamp-3 text-justify">
-                  {parse(content)}
+                <div
+                  data-color-mode="light"
+                  className="font-noto text-sm font-thin sm:line-clamp-2 hidden lg:line-clamp-4 md:line-clamp-3 text-justify"
+                >
+                  <MarkdownPreview
+                    source={content}
+                    rehypePlugins={[rehypeRaw, rehypeAutolinkHeadings]}
+                    remarkPlugins={[remarkGfm, remarkImages]}
+                    skipHtml
+                  />
                 </div>
               </div>
               {imgsrc !== null ? (
@@ -159,4 +174,5 @@ BlogCard.propTypes = {
   tag: Prop.string,
   authorid: Prop.string,
   showbuttons: Prop.bool,
+  getBlogs: Prop.func,
 };
