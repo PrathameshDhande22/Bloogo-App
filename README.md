@@ -14,11 +14,52 @@ A Blog App for all Coders, Programmers, and other.
 
 A Bloogo app made using react js as frontend and FastAPI as backend, and Storing data in a MongoDB ulimately also known as FARM Stack APP.
 
+## Bloogo Features
+
+1. **Markdown Blogging:**
+
+   - _Description:_ Users can create and publish blog posts using Markdown syntax for rich and structured content.
+
+2. **Tagging System:**
+
+   - _Description:_ Bloggers can categorize their posts by adding tags, facilitating content organization.
+
+3. **Thumbnail Upload:**
+
+   - _Description:_ Users can upload custom thumbnails for their blog posts, enhancing visual appeal.
+
+4. **Advanced Login/Register System:**
+
+   - _Description:_ Robust user authentication system ensures secure login and registration processes.
+
+5. **Cloudinary Integration:**
+
+   - _Description:_ Images are stored and managed using Cloudinary, a cloud-based media management solution.
+
+6. **User Profile Image:**
+
+   - _Description:_ Users can upload and personalize their profile images.
+
+7. **Search Features:**
+
+   - _Description:_ Users can search for blogs based on various criteria, including content, author, and tags.
+
+8. **FastAPI for Automatic Error Handling:**
+
+   - _Description:_ Utilizing FastAPI library for automatic error handling, ensuring smooth and efficient error resolution.
+
+9. **JWT Verification:**
+
+   - _Description:_ JSON Web Token (JWT) verification is implemented for secure authentication and authorization.
+
+10. **Account Verification through Email:**
+    - _Description:_ Users undergo account verification through email, enhancing security and confirming valid user accounts.
+
 ## Deployed Links
 
-[Bloogo APP](https://bloogo.vercel.app)
+[Bloogo APP](https://bloogo.vercel.app) Frontend
 
-[Bloogo API](https://bloogoapi.onrender.com)
+[Bloogo API](https://bloogoapi.onrender.com) Backend
 
 ## Used Technologies and Products
 
@@ -27,7 +68,7 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
 3. [write.as](https://write.as/) Reference for creating the blog. Using The above website design.
 4. [Footer Design](https://preview.colorlib.com/theme/bft/bootstrap-footer-17/#) Footer Design has been taken from the above website.
 5. [Day.js](https://day.js.org/) Used for Formatting the Date recieved From backend.
-6. [Html Parser](https://github.com/remarkablemark/html-react-parser) for converting the HTML string to JSX HTML.
+6. [React Markdown Viewer](https://uiwjs.github.io/react-markdown-preview/) For Viewing the blog post.
 7. [Animate.css](https://animate.style/) for Animating some components.
 8. [Formik](https://formik.org/) used for handling client side validation of form data.
 9. [yup](https://github.com/jquense/yup) used for creating the form schema that can be used with formik.
@@ -36,8 +77,8 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
 12. [React Toastify](https://fkhadra.github.io/react-toastify/introduction) For adding the Notification to alert the user about any changes made by him.
 13. [React Loader Spinner](https://mhnpd.github.io/react-loader-spinner/) Using this Library we added the loading components where the loading of data takes place.
 14. [Loading.io](https://loading.io/) Using these website created the Loading.gif for showing with the react loader spinner.
-15. [React Jodit](https://xdsoft.net/jodit/) An Open Source WYSIWYG Editor using for writing the Blog.
-16. [React Select](https://react-select.com/home) Select component with create in it.
+15. [React Markdown Editor](https://uiwjs.github.io/react-md-editor/) Writing the blog post using these markdown components.
+16. [React Select](https://react-select.com/home), Select component with create in it.
 17. [Reading Time Estimator](https://www.npmjs.com/package/reading-time-estimator) Used for Read the whole blog and estimate the time to read it.
 18. [Error Page Reference](https://colorlib.com/etc/404/colorlib-error-404-3/) From the above website the error page design has been made.
 19. [moment.js](https://momentjs.com/) JS library for date utility for giving from how many hours or minutes have been over by uploading this blog.
@@ -196,11 +237,51 @@ A Bloogo app made using react js as frontend and FastAPI as backend, and Storing
   - Researching of New Editor for blog writing.
 
 - **Day 25 - 07 February 2024**
+
   - Implemented the Email Sender SMTP with `smtplib` library of python.
   - Loading component implemented in various Pages to minimize the pressure on backend.
   - Improved functionality when the blog is deleted the whole page is being reloaded so removed the reloaded code.
   - Implemented the New Markdown Editor for writing the blogs.
   - Now the Images or thumbnails can be directly uploaded to Backend Fastapi integrated the cloudinary in the backend.
+  - Switched from client side image uploading to server side image uploading.
+  - Improved the experience with the tag and solved the issue related to selecting the tag.
+
+- **Day 26 - 08 February 2024**
+
+  - Improved the taglist edit blog experience.
+  - Improved the Profile Image uploading to the backend and frontend.
+  - Updated and user deleted blog Images deletion service Implemented for optimize the performance of the cloudinary service.
+  - Added the new Meta Tags to the frontend.
+  - Change of version from v1.0 to v1.5.0.
+  - Optimization of Code in the frontend Part.
+  - New Updates Implemented and completed the Project.
+  - Deployed The Project.
+
+## Bloogo App v1.5.0 Update Log
+
+#### Optimized Frontend and Rendering
+
+- Improved performance with optimized frontend and rendering for a smoother user experience.
+
+#### Shifted Uploading Images to Server Side
+
+- Enhanced security by moving image uploading from client-side to server-side.
+
+#### Added "Please Wait" Component for API Calls
+
+- Implemented a "Please Wait" component during API calls for login, signup, forgot password, and change password functionalities.
+
+#### Cloudinary Image Deletion Functionality
+
+- Users can now delete images from Cloudinary server to minimize storage.
+
+#### Removed setTimeout Function
+
+- Eliminated the use of `setTimeout` function from various pages for improved code efficiency.
+
+#### SMTPlib for Mail Sending
+
+- Utilized `smtplib` for sending emails, removing dependency on the brevo SMTP server.
 
 ## Future Work/Updates
 
@@ -229,6 +310,8 @@ cd backend
 
 3. Simple command it will automatically create the virtual environment and install the packages.
 
+   **Note :** The Poetry package should be installed in our System before triggering the below commands.
+
 ```
 poetry install
 ```
@@ -243,12 +326,16 @@ SECRET=Jwt secret
 EMAIL= Your Email addresss
 PASSWORD= Your email address password
 LINK=http://localhost:5173 of the frontend.
+CLOUD_NAME=cloudinary cloud name
+API_KEY=Cloudinary api key
+API_SECRET=Cloudinary api secret
+UPLOAD_PRESET=Cloudinary Upload preset
 ```
 
 7. Run
 
 ```
-python  run.py
+python run.py
 ```
 
 😃😃 Backend is Running Successfully in your System.
@@ -266,9 +353,6 @@ cd frontend
 ```
 VITE_BASE_API=backend running url
 VITE_CLOUD_NAME=cloudinary cloud name
-VITE_API_KEY=Cloudinary api key
-VITE_API_SECRET=Cloudinary api secret
-VITE_UPLOAD_PRESET=Cloudinary Upload preset
 ```
 
 3. Install the dependencies.
