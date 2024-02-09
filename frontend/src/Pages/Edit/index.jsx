@@ -182,7 +182,7 @@ export const Edit = () => {
                 value={data?.title}
                 inputProps={{ className: "font-gara text-2xl" }}
               />
-              <div data-color-mode="light">
+              <div data-color-mode="light" className="w-full">
                 <MarkdownEditor
                   value={data?.content}
                   height="500px"

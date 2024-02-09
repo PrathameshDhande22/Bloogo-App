@@ -77,7 +77,7 @@ export const NewBlog = () => {
   return (
     <div className="flex flex-col justify-center items-center w-full my-4">
       <div className="flex flex-col flex-wrap gap-6 w-[95%] md:w-[50%]">
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row w-full justify-between items-center">
           <div className="font-gara text-2xl md:text-4xl font-bold border-b-4 py-1 border-b-indigo-600 pe-6 select-none">
             Create New Blog
           </div>
@@ -131,7 +131,7 @@ export const NewBlog = () => {
           required
           inputProps={{ className: "font-gara text-2xl" }}
         />
-        <div data-color-mode="light">
+        <div data-color-mode="light" className="w-full">
           <MarkdownEditor
             value={data?.content}
             height="500px"
